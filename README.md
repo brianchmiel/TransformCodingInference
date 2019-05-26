@@ -26,7 +26,7 @@ python main.py --data <ILSVRC2012 folder location> --model <Model name (resnet18
 Links to models with quantized weights can be download from:
 https://www.mediafire.com/file/ajna79opjt53c12/qmodels.tar/file
 
-unzip the file en put in folder ./qmodels/
+unzip the file and put in folder ./qmodels/
 
  # Results
  ![results](imgs/results.PNG)
