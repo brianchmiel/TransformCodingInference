@@ -27,7 +27,7 @@ https://www.mediafire.com/file/ajna79opjt53c12/qmodels.tar/file
 unzip the file en put in folder ./qmodels/
 
  # Results
- ![results](imgs/results.PNGc)
+ ![results](imgs/results.PNG)
   
 # Acknowledgments  
 TODO
