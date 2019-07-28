@@ -6,11 +6,14 @@ This code implements the papper "Feature Map Transform Coding for Energy-Efficie
 
 Arxiv link - TODO
 
+
 # Flow Diagram
 
 ![struct](imgs/struct.PNG)
 
+# HW Implementation
 
+TODO
 
 # Datasets  
   
