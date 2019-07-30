@@ -1,0 +1,18 @@
+Fitter Status : Successful - Sun May 26 12:06:41 2019
+Quartus Prime Version : 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name : Entropy_encoding
+Top-level Entity Name : Entropy_encoding
+Family : Stratix 10
+Device : 1SX280LU3F50I2VG
+Timing Models : Advance
+Logic utilization (in ALMs) : 33,122 / 933,120 ( 4 % )
+  * Logic utilization warning : A large number of ALMs contain virtual pins and count towards logic utilization
+  * ALMs containing virtual pins : 9,326 / 933,120 ( < 1 % )
+Total dedicated logic registers : 48184
+Total pins : 0 / 1,152 ( 0 % )
+Total block memory bits : 0 / 240,046,080 ( 0 % )
+Total RAM Blocks : 0 / 11,721 ( 0 % )
+Total DSP Blocks : 2,240 / 5,760 ( 39 % )
+Total HSSI RX channels : 0 / 96 ( 0 % )
+Total HSSI TX channels : 0 / 96 ( 0 % )
+Total PLLs : 0 / 152 ( 0 % )

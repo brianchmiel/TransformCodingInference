@@ -1,0 +1,176 @@
+Early Power Estimator File Generator report for Entropy_encoding
+Wed May 22 22:04:38 2019
+Quartus Prime Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Parallel Compilation
+  3. Early Power Estimator File Generator Summary
+  4. Early Power Estimator File Generator Settings
+  5. Early Power Estimator File Generator Messages
+  6. Early Power Estimator File Generator Generated Files
+  7. Confidence Metric Details
+  8. Signal Activities
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 6           ;
+; Maximum allowed            ; 6           ;
+;                            ;             ;
+; Average used               ; 1.53        ;
+; Maximum used               ; 6           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processors 2-6         ;  10.6%      ;
++----------------------------+-------------+
+
+
++------------------------------------------------------------------------------------------------+
+; Early Power Estimator File Generator Summary                                                   ;
++---------------------------------------------+--------------------------------------------------+
+; Early Power Estimator File Generator Status ; Successful - Wed May 22 22:04:37 2019            ;
+; Quartus Prime Version                       ; 17.1.0 Build 240 10/25/2017 SJ Pro Edition       ;
+; Revision Name                               ; Entropy_encoding                                 ;
+; Top-level Entity Name                       ; Entropy_encoding                                 ;
+; Family                                      ; Stratix 10                                       ;
+; Device                                      ; 1SG210HN3F43E3VGS1                               ;
+; Power Estimation Confidence                 ; Low: user provided insufficient toggle rate data ;
++---------------------------------------------+--------------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------+
+; Early Power Estimator File Generator Settings                                                        ;
++----------------------------------------------------------------------------+---------+---------------+
+; Option                                                                     ; Setting ; Default Value ;
++----------------------------------------------------------------------------+---------+---------------+
+; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation ; On      ; On            ;
+; Enable compact report table                                                ; Off     ; Off           ;
+; Default Power Toggle Rate                                                  ; 12.5%   ; 12.5%         ;
+; Default Power Input I/O Toggle Rate                                        ; 12.5%   ; 12.5%         ;
+; Use vectorless estimation                                                  ; On      ; On            ;
+; Use Input Files                                                            ; Off     ; Off           ;
+; Filter Glitches in VCD File Reader                                         ; On      ; On            ;
+; Power Analyzer Report Signal Activity                                      ; Off     ; Off           ;
+; Power Analyzer Report Power Dissipation                                    ; Off     ; Off           ;
+; Device Power Characteristics                                               ; TYPICAL ; TYPICAL       ;
+; Specified Junction Temperature                                             ; 25      ; 25            ;
+; Enable HPS                                                                 ; Off     ; Off           ;
+; Processor Frequency                                                        ; 0.0     ; 0.0           ;
++----------------------------------------------------------------------------+---------+---------------+
+
+
++-----------------------------------------------+
+; Early Power Estimator File Generator Messages ;
++-----------------------------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Early Power Estimator File Generator
+    Info: Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+    Info: Processing started: Wed May 22 22:02:38 2019
+Info: Command: quartus_pow --read_settings_files=on --write_settings_files=off Entropy_encoding -c Entropy_encoding --estimate_power=off --output_epe=Entropy_encoding_early_pwr.csv
+Info (16677): Loading final database
+Info (16734): Loading "final" snapshot for partition "root_partition".
+Info (16678): Successfully loaded final database: elapsed time is 00:00:18
+Info (21077): Low junction temperature is 0 degrees C
+Info (21077): High junction temperature is 100 degrees C
+Info (19539): Reading the HDL-embedded SDC files elapsed 00:00:00.
+Info (332104): Reading SDC File: 'Entropy_encoding.sdc'
+Info (19449): Reading SDC files elapsed 00:00:01.
+Info (332143): No user constrained clock uncertainty found in the design. Calling "derive_clock_uncertainty"
+Warning (332158): Clock uncertainty characteristics of the Stratix 10 device family are preliminary
+Info (332154): The derive_clock_uncertainty command did not apply clock uncertainty to any clock-to-clock transfers.
+Warning (332158): Clock uncertainty characteristics of the Stratix 10 device family are preliminary
+Info (332154): The derive_clock_uncertainty command did not apply clock uncertainty to any clock-to-clock transfers.
+Warning (332158): Clock uncertainty characteristics of the Stratix 10 device family are preliminary
+Info (332154): The derive_clock_uncertainty command did not apply clock uncertainty to any clock-to-clock transfers.
+Warning (332158): Clock uncertainty characteristics of the Stratix 10 device family are preliminary
+Info (332154): The derive_clock_uncertainty command did not apply clock uncertainty to any clock-to-clock transfers.
+Warning (332158): Clock uncertainty characteristics of the Stratix 10 device family are preliminary
+Info (332154): The derive_clock_uncertainty command did not apply clock uncertainty to any clock-to-clock transfers.
+Warning (332158): Clock uncertainty characteristics of the Stratix 10 device family are preliminary
+Info (332154): The derive_clock_uncertainty command did not apply clock uncertainty to any clock-to-clock transfers.
+Info (223000): Starting Vectorless Power Activity Estimation
+Info (223001): Completed Vectorless Power Activity Estimation
+Info (218000): Using Advanced I/O Power to simulate I/O buffers with the specified board trace model
+Info (215029): No power estimate will be produced.
+Warning (18291): Timing characteristics of device 1SG210HN3F43E3VGS1 are preliminary
+Info (214002): Created Early Power Estimation file "Entropy_encoding_early_pwr.csv"
+Info (215049): Average toggle rate for this design is 0.001 millions of transitions / sec
+Info: Quartus Prime Early Power Estimator File Generator was successful. 0 errors, 7 warnings
+    Info: Peak virtual memory: 18697 megabytes
+    Info: Processing ended: Wed May 22 22:04:41 2019
+    Info: Elapsed time: 00:02:03
+    Info: Total CPU time (on all processors): 00:03:35
+
+
++---------------------------------------------------------------------------------------+
+; Early Power Estimator File Generator Generated Files                                  ;
++------------------------------------------------------+--------------------------------+
+; Description                                          ; Filename                       ;
++------------------------------------------------------+--------------------------------+
+; Design summary for Early Power Estimator spreadsheet ; Entropy_encoding_early_pwr.csv ;
++------------------------------------------------------+--------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Confidence Metric Details                                                                                                                                ;
++----------------------------------------------------------------------------------------+-----------------+------------+----------------+-----------------+
+; Data Source                                                                            ; Total           ; Pin        ; Registered     ; Combinational   ;
++----------------------------------------------------------------------------------------+-----------------+------------+----------------+-----------------+
+; Simulation (from file)                                                                 ;                 ;            ;                ;                 ;
+;     -- Number of signals with Toggle Rate from Simulation                              ; 0 (0.0%)        ; 0 (0.0%)   ; 0 (0.0%)       ; 0 (0.0%)        ;
+;     -- Number of signals with Static Probability from Simulation                       ; 0 (0.0%)        ; 0 (0.0%)   ; 0 (0.0%)       ; 0 (0.0%)        ;
+;                                                                                        ;                 ;            ;                ;                 ;
+; Node, entity or clock assignment                                                       ;                 ;            ;                ;                 ;
+;     -- Number of signals with Toggle Rate from Node, entity or clock assignment        ; 2 (0.0%)        ; 0 (0.0%)   ; 0 (0.0%)       ; 2 (0.0%)        ;
+;     -- Number of signals with Static Probability from Node, entity or clock assignment ; 2 (0.0%)        ; 0 (0.0%)   ; 0 (0.0%)       ; 2 (0.0%)        ;
+;                                                                                        ;                 ;            ;                ;                 ;
+; Vectorless estimation                                                                  ;                 ;            ;                ;                 ;
+;     -- Number of signals with Toggle Rate from Vectorless estimation                   ; 335858 (100.0%) ; 0 (0.0%)   ; 40384 (100.0%) ; 295474 (100.0%) ;
+;     -- Number of signals with Zero toggle rate, from Vectorless estimation             ; 335858 (100.0%) ; 0 (0.0%)   ; 40384 (100.0%) ; 295474 (100.0%) ;
+;     -- Number of signals with Static Probability from Vectorless estimation            ; 335858 (100.0%) ; 0 (0.0%)   ; 40384 (100.0%) ; 295474 (100.0%) ;
+;                                                                                        ;                 ;            ;                ;                 ;
+; Default assignment                                                                     ;                 ;            ;                ;                 ;
+;     -- Number of signals with Toggle Rate from Default assignment                      ; 0 (0.0%)        ; 0 (0.0%)   ; 0 (0.0%)       ; 0 (0.0%)        ;
+;     -- Number of signals with Static Probability from Default assignment               ; 9 (0.0%)        ; 9 (100.0%) ; 0 (0.0%)       ; 0 (0.0%)        ;
+;                                                                                        ;                 ;            ;                ;                 ;
+; Assumed 0                                                                              ;                 ;            ;                ;                 ;
+;     -- Number of signals with Toggle Rate assumed 0                                    ; 9 (0.0%)        ; 9 (100.0%) ; 0 (0.0%)       ; 0 (0.0%)        ;
++----------------------------------------------------------------------------------------+-----------------+------------+----------------+-----------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------+
+; Signal Activities                                                                                                                           ;
++--------+------+---------------------------------------------+-------------------------+--------------------+--------------------------------+
+; Signal ; Type ; Toggle Rate (millions of transitions / sec) ; Toggle Rate Data Source ; Static Probability ; Static Probability Data Source ;
++--------+------+---------------------------------------------+-------------------------+--------------------+--------------------------------+
+(1) The "Signal Activity" Table has been hidden. To show this table, please select the "Write signal activities to report file" option under "Power Analyzer Settings".
+
+

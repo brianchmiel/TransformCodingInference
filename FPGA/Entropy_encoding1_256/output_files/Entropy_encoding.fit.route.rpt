@@ -1,0 +1,113 @@
+Fitter Route Stage Report for Entropy_encoding
+Wed May 22 12:25:14 2019
+Quartus Prime Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Routing Usage Summary
+  3. Route Messages
+  4. Estimated Delay Added for Hold Timing Summary
+  5. Estimated Delay Added for Hold Timing Details
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++-----------------------------------------------------------------+
+; Routing Usage Summary                                           ;
++--------------------------------+--------------------------------+
+; Routing Resource Type          ; Usage                          ;
++--------------------------------+--------------------------------+
+; Block Input Muxes              ; 0 / 675,444 ( 0 % )            ;
+; Block interconnects            ; 1,295,206 / 9,132,912 ( 14 % ) ;
+; C16 interconnects              ; 6,292 / 226,512 ( 3 % )        ;
+; C2 interconnects               ; 128,849 / 1,359,072 ( 9 % )    ;
+; C3 interconnects               ; 192,238 / 2,758,032 ( 7 % )    ;
+; C4 interconnects               ; 203,305 / 1,772,208 ( 11 % )   ;
+; CLOCK_INVERTs                  ; 0 / 7,616 ( 0 % )              ;
+; DCM_muxes                      ; 0 / 1,632 ( 0 % )              ;
+; Direct links                   ; 396,603 / 9,132,912 ( 4 % )    ;
+; GAP Interconnects              ; 3,416 / 267,192 ( 1 % )        ;
+; GAPs                           ; 8 / 29,304 ( < 1 % )           ;
+; HIO Buffers                    ; 0 / 209,664 ( 0 % )            ;
+; Horizontal Buffers             ; 637 / 176,364 ( < 1 % )        ;
+; Horizontal_clock_segment_muxes ; 88 / 7,488 ( 1 % )             ;
+; Programmable Inverts           ; 0 / 318,960 ( 0 % )            ;
+; R10 interconnects              ; 142,358 / 2,456,208 ( 6 % )    ;
+; R2 interconnects               ; 164,065 / 2,265,120 ( 7 % )    ;
+; R24 interconnects              ; 4,895 / 293,040 ( 2 % )        ;
+; R24/C16 interconnect drivers   ; 6,124 / 453,024 ( 1 % )        ;
+; R4 interconnects               ; 277,178 / 3,248,028 ( 9 % )    ;
+; Row Clock Tap-Offs             ; 14,893 / 725,544 ( 2 % )       ;
+; Switchbox_clock_muxes          ; 310 / 41,600 ( < 1 % )         ;
+; Vertical_seam_tap_muxes        ; 259 / 22,848 ( 1 % )           ;
++--------------------------------+--------------------------------+
+
+
++----------------+
+; Route Messages ;
++----------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Fitter
+    Info: Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+    Info: Processing started: Wed May 22 11:12:36 2019
+Info: Command: quartus_fit --read_settings_files=off --write_settings_files=off Entropy_encoding -c Entropy_encoding
+Info: qfit2_default_script.tcl version: #1
+Info: Project  = Entropy_encoding
+Info: Revision = Entropy_encoding
+Info (170193): Fitter routing operations beginning
+Info (170239): Router is attempting to preserve 0.00 percent of routes from an earlier compilation, a user specified Routing Constraints File, or internal routing requirements.
+Info (170195): Router estimated average interconnect usage is 5% of the available device resources
+    Info (170196): Router estimated peak interconnect usage is 12% of the available device resources in the region that extends from location X72_Y168 to location X83_Y179
+Info (170199): The Fitter performed an Auto Fit compilation.  Optimizations were skipped to reduce compilation time.
+    Info (170201): Optimizations that may affect the design's routability were skipped
+    Info (170200): Optimizations that may affect the design's timing were skipped
+Info (11888): Total time spent on timing analysis during Routing is 173.30 seconds.
+Warning (18292): Advance timing characteristics for device 1SX280LU3F50I2VG. Delays will change in future releases.
+Info (16607): Fitter routing operations ending: elapsed time is 00:17:26
+
+
++------------------------------------------------------------+
+; Estimated Delay Added for Hold Timing Summary              ;
++-----------------+----------------------+-------------------+
+; Source Clock(s) ; Destination Clock(s) ; Delay Added in ns ;
++-----------------+----------------------+-------------------+
+Note: For more information on problematic transfers, consider running the Fitter again with the Optimize hold timing option (Settings Menu) turned off.
+This will disable optimization of problematic paths and expose them for further analysis using the TimeQuest Timing Analyzer.
+
+
++----------------------------------------------------------------------+
+; Estimated Delay Added for Hold Timing Details                        ;
++---------------------+----------------------------+-------------------+
+; Source Register     ; Destination Register       ; Delay Added in ns ;
++---------------------+----------------------------+-------------------+
+; CL256|CL218|c36[14] ; CL256|CL218|c38[19]~RTM_29 ; 0.049             ;
+; CL256|CL218|c36[7]  ; CL256|CL218|c38[19]~RTM_15 ; 0.020             ;
+; CL256|CL218|c36[5]  ; CL256|CL218|c38[19]~RTM_11 ; 0.018             ;
+; CL256|CL218|c36[9]  ; CL256|CL218|c38[19]~RTM_19 ; 0.014             ;
+; CL256|CL218|c36[11] ; CL256|CL218|c38[19]~RTM_23 ; 0.012             ;
+; CL256|CL218|c36[10] ; CL256|CL218|c38[19]~RTM_21 ; 0.010             ;
++---------------------+----------------------------+-------------------+
+Note: This table only shows the top 6 path(s) that have the largest delay added for hold.
+
+

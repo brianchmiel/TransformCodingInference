@@ -1,0 +1,86 @@
+Fitter Route Stage Report for Entropy_encoding
+Wed May 22 21:41:29 2019
+Quartus Prime Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Routing Usage Summary
+  3. Route Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++---------------------------------------------------------------+
+; Routing Usage Summary                                         ;
++--------------------------------+------------------------------+
+; Routing Resource Type          ; Usage                        ;
++--------------------------------+------------------------------+
+; Block Input Muxes              ; 0 / 675,444 ( 0 % )          ;
+; Block interconnects            ; 255,605 / 9,132,912 ( 3 % )  ;
+; C16 interconnects              ; 459 / 226,512 ( < 1 % )      ;
+; C2 interconnects               ; 24,408 / 1,359,072 ( 2 % )   ;
+; C3 interconnects               ; 40,286 / 2,758,032 ( 1 % )   ;
+; C4 interconnects               ; 39,726 / 1,772,208 ( 2 % )   ;
+; DCM_muxes                      ; 0 / 1,632 ( 0 % )            ;
+; Direct links                   ; 75,605 / 9,132,912 ( < 1 % ) ;
+; GAP Interconnects              ; 185 / 267,192 ( < 1 % )      ;
+; GAPs                           ; 0 / 29,304 ( 0 % )           ;
+; HIO Buffers                    ; 0 / 209,664 ( 0 % )          ;
+; Horizontal Buffers             ; 38 / 176,364 ( < 1 % )       ;
+; Horizontal_clock_segment_muxes ; 40 / 7,488 ( < 1 % )         ;
+; Programmable Inverts           ; 0 / 318,960 ( 0 % )          ;
+; R10 interconnects              ; 28,155 / 2,456,208 ( 1 % )   ;
+; R2 interconnects               ; 31,255 / 2,265,120 ( 1 % )   ;
+; R24 interconnects              ; 336 / 293,040 ( < 1 % )      ;
+; R24/C16 interconnect drivers   ; 629 / 453,024 ( < 1 % )      ;
+; R4 interconnects               ; 55,584 / 3,248,028 ( 2 % )   ;
+; Row Clock Tap-Offs             ; 3,865 / 725,544 ( < 1 % )    ;
+; Switchbox_clock_muxes          ; 130 / 41,600 ( < 1 % )       ;
+; Vertical_seam_tap_muxes        ; 73 / 15,232 ( < 1 % )        ;
++--------------------------------+------------------------------+
+
+
++----------------+
+; Route Messages ;
++----------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Fitter
+    Info: Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+    Info: Processing started: Wed May 22 21:23:47 2019
+Info: Command: quartus_fit --read_settings_files=off --write_settings_files=off Entropy_encoding -c Entropy_encoding
+Info: qfit2_default_script.tcl version: #1
+Info: Project  = Entropy_encoding
+Info: Revision = Entropy_encoding
+Info (170193): Fitter routing operations beginning
+Info (170239): Router is attempting to preserve 0.00 percent of routes from an earlier compilation, a user specified Routing Constraints File, or internal routing requirements.
+Info (170195): Router estimated average interconnect usage is 1% of the available device resources
+    Info (170196): Router estimated peak interconnect usage is 11% of the available device resources in the region that extends from location X204_Y180 to location X215_Y191
+Info (170199): The Fitter performed an Auto Fit compilation.  Optimizations were skipped to reduce compilation time.
+    Info (170201): Optimizations that may affect the design's routability were skipped
+    Info (170200): Optimizations that may affect the design's timing were skipped
+Info (11888): Total time spent on timing analysis during Routing is 24.92 seconds.
+Warning (18291): Timing characteristics of device 1SG210HN3F43E3VGS1 are preliminary
+Info (16607): Fitter routing operations ending: elapsed time is 00:06:43
+
+

@@ -1,0 +1,19 @@
+Power Analyzer Status : Successful - Wed May 22 22:02:28 2019
+Quartus Prime Version : 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name : Entropy_encoding
+Top-level Entity Name : Entropy_encoding
+Family : Stratix 10
+Device : 1SG210HN3F43E3VGS1
+Power Models : Advance
+Total Thermal Power Dissipation : 4507.09 mW
+Transceiver Standby Thermal Power Dissipation : 0.00 mW
+Transceiver Dynamic Thermal Power Dissipation : 0.00 mW
+I/O Standby Thermal Power Dissipation : 0.00 mW
+I/O Dynamic Thermal Power Dissipation : 0.00 mW
+Core Dynamic Thermal Power Dissipation : 192.01 mW
+HPS Standby Thermal Power Dissipation : 0.00 mW
+HPS Dynamic Thermal Power Dissipation : 0.00 mW
+Device Static Thermal Power Dissipation : 4315.08 mW
+COPACKAGED Standby Thermal Power Dissipation : 0.00 mW
+COPACKAGED Dynamic Thermal Power Dissipation : 0.00 mW
+Power Estimation Confidence : Low: user provided insufficient toggle rate data

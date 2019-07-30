@@ -1,0 +1,90 @@
+EDA Netlist Writer report for Entropy_encoding
+Wed May 22 13:51:48 2019
+Quartus Prime Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. EDA Netlist Writer Summary
+  3. EDA Netlist Writer Messages
+  4. Simulation Settings
+  5. Simulation Generated Files
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++-------------------------------------------------------------------+
+; EDA Netlist Writer Summary                                        ;
++---------------------------+---------------------------------------+
+; EDA Netlist Writer Status ; Successful - Wed May 22 13:51:48 2019 ;
+; Revision Name             ; Entropy_encoding                      ;
+; Top-level Entity Name     ; Entropy_encoding                      ;
+; Family                    ; Stratix 10                            ;
+; Simulation Files Creation ; Successful                            ;
++---------------------------+---------------------------------------+
+
+
++-----------------------------+
+; EDA Netlist Writer Messages ;
++-----------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime EDA Netlist Writer
+    Info: Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+    Info: Processing started: Wed May 22 13:45:59 2019
+Info: Command: quartus_eda --read_settings_files=off --write_settings_files=off Entropy_encoding -c Entropy_encoding
+Info (16677): Loading final database
+Info (16734): Loading "final" snapshot for partition "root_partition".
+Info (16678): Successfully loaded final database: elapsed time is 00:00:41
+Info (204019): Generated file Entropy_encoding.vo in folder "/run/media/yyevgeny/HDD/projects/Entropy_encoding1_256/simulation/modelsim/" for EDA simulation tool
+Info: Quartus Prime EDA Netlist Writer was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 11160 megabytes
+    Info: Processing ended: Wed May 22 13:51:54 2019
+    Info: Elapsed time: 00:05:55
+    Info: Total CPU time (on all processors): 00:05:48
+
+
++------------------------------------------------------------------------------+
+; Simulation Settings                                                          ;
++--------------------------------------------------+---------------------------+
+; Option                                           ; Setting                   ;
++--------------------------------------------------+---------------------------+
+; Tool Name                                        ; ModelSim-Altera (Verilog) ;
+; Truncate long hierarchy paths                    ; Off                       ;
+; Map illegal HDL characters                       ; Off                       ;
+; Flatten buses into individual nodes              ; Off                       ;
+; Bring out device-wide set/reset signals as ports ; Off                       ;
+; Do not write top level VHDL entity               ; Off                       ;
+; Architecture name in VHDL output netlist         ; structure                 ;
++--------------------------------------------------+---------------------------+
+
+
++----------------------------------------------------------------------------------------------------------+
+; Simulation Generated Files                                                                               ;
++----------------------------------------------------------------------------------------------------------+
+; Generated Files                                                                                          ;
++----------------------------------------------------------------------------------------------------------+
+; /run/media/yyevgeny/HDD/projects/Entropy_encoding1_256/simulation/modelsim/Entropy_encoding_modelsim.xrf ;
+; /run/media/yyevgeny/HDD/projects/Entropy_encoding1_256/simulation/modelsim/Entropy_encoding.vo           ;
++----------------------------------------------------------------------------------------------------------+
+
+

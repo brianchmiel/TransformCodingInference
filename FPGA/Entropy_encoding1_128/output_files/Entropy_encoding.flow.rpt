@@ -1,0 +1,141 @@
+Flow report for Entropy_encoding
+Sun May 26 12:09:05 2019
+Quartus Prime Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Legal Notice
+  3. Flow Summary
+  4. Flow Settings
+  5. Flow Non-Default Global Settings
+  6. Flow Elapsed Time
+  7. Flow OS Summary
+  8. Flow Log
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++------------------------------------------------------------------------------+
+; Flow Summary                                                                 ;
++---------------------------------+--------------------------------------------+
+; Flow Status                     ; Successful - Sun May 26 12:09:04 2019      ;
+; Quartus Prime Version           ; 17.1.0 Build 240 10/25/2017 SJ Pro Edition ;
+; Revision Name                   ; Entropy_encoding                           ;
+; Top-level Entity Name           ; Entropy_encoding                           ;
+; Family                          ; Stratix 10                                 ;
+; Device                          ; 1SX280LU3F50I2VG                           ;
+; Timing Models                   ; Advance                                    ;
+; Logic utilization (in ALMs)     ; 33,122 / 933,120 ( 4 % )                   ;
+; Total dedicated logic registers ; 48184                                      ;
+; Total pins                      ; 0 / 1,152 ( 0 % )                          ;
+; Total block memory bits         ; 0 / 240,046,080 ( 0 % )                    ;
+; Total DSP Blocks                ; 2,240 / 5,760 ( 39 % )                     ;
+; Total HSSI RX channels          ; 0 / 96 ( 0 % )                             ;
+; Total HSSI TX channels          ; 0 / 96 ( 0 % )                             ;
+; Total PLLs                      ; 0 / 152 ( 0 % )                            ;
++---------------------------------+--------------------------------------------+
+
+
++-----------------------------------------+
+; Flow Settings                           ;
++-------------------+---------------------+
+; Option            ; Setting             ;
++-------------------+---------------------+
+; Start date & time ; 05/23/2019 10:25:25 ;
+; Main task         ; Compilation         ;
+; Revision Name     ; Entropy_encoding    ;
++-------------------+---------------------+
+
+
++-----------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                          ;
++----------------------------+-------------------------------+---------------+-------------+----------------+
+; Assignment Name            ; Value                         ; Default Value ; Entity Name ; Section Id     ;
++----------------------------+-------------------------------+---------------+-------------+----------------+
+; COMPILER_SIGNATURE_ID      ; 5025763279363.155859632530339 ; --            ; --          ; --             ;
+; EDA_OUTPUT_DATA_FORMAT     ; Verilog Hdl                   ; --            ; --          ; eda_simulation ;
+; EDA_SIMULATION_TOOL        ; ModelSim-Altera (Verilog)     ; <None>        ; --          ; --             ;
+; FLOW_ENABLE_POWER_ANALYZER ; On                            ; Off           ; --          ; --             ;
+; MAX_CORE_JUNCTION_TEMP     ; 100                           ; --            ; --          ; --             ;
+; MIN_CORE_JUNCTION_TEMP     ; -40                           ; --            ; --          ; --             ;
+; PROJECT_OUTPUT_DIRECTORY   ; output_files                  ; --            ; --          ; --             ;
+; VHDL_INPUT_VERSION         ; VHDL_2008                     ; VHDL_1993     ; --          ; --             ;
++----------------------------+-------------------------------+---------------+-------------+----------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------+
+; Flow Elapsed Time                                                                                                                           ;
++-----------------------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Module Name                             ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
++-----------------------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Synthesis                               ; 00:04:24     ; 3.1                     ; 3256 MB             ; 00:01:39                           ;
+; Fitter (Plan)                           ; 00:02:27     ; 1.1                     ; 18924 MB            ; 00:04:31                           ;
+; Fitter (Place, Route, Retime, Finalize) ; 00:42:55     ; 1.3                     ; 31047 MB            ; 02:17:07                           ;
+; Power Analyzer                          ; 00:02:04     ; 1.4                     ; 19299 MB            ; 00:03:21                           ;
+; Total                                   ; 00:51:50     ; --                      ; --                  ; 02:26:38                           ;
++-----------------------------------------+--------------+-------------------------+---------------------+------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                                                ;
++-----------------------------------------+-----------------------+--------------+--------------+----------------+
+; Module Name                             ; Machine Hostname      ; OS Name      ; OS Version   ; Processor type ;
++-----------------------------------------+-----------------------+--------------+--------------+----------------+
+; Synthesis                               ; localhost.localdomain ; CentOS Linux ; CentOS Linux ; x86_64         ;
+; Fitter (Plan)                           ; localhost.localdomain ; CentOS Linux ; CentOS Linux ; x86_64         ;
+; Fitter (Place, Route, Retime, Finalize) ; localhost.localdomain ; CentOS Linux ; CentOS Linux ; x86_64         ;
+; Power Analyzer                          ; localhost.localdomain ; CentOS Linux ; CentOS Linux ; x86_64         ;
++-----------------------------------------+-----------------------+--------------+--------------+----------------+
+
+
+------------
+; Flow Log ;
+------------
+quartus_syn --read_settings_files=on --write_settings_files=off Entropy_encoding -c Entropy_encoding
+quartus_syn --read_settings_files=on --write_settings_files=off Entropy_encoding -c Entropy_encoding
+quartus_fit --read_settings_files=on --write_settings_files=off Entropy_encoding -c Entropy_encoding --plan
+quartus_fit --read_settings_files=on --write_settings_files=off Entropy_encoding -c Entropy_encoding --place --route --retime --finalize
+quartus_pow --read_settings_files=off --write_settings_files=off Entropy_encoding -c Entropy_encoding
+
+
+

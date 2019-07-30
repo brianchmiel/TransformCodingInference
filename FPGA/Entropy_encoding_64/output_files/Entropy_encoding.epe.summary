@@ -1,0 +1,7 @@
+Early Power Estimator File Generator Status : Successful - Wed May 22 22:04:37 2019
+Quartus Prime Version : 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name : Entropy_encoding
+Top-level Entity Name : Entropy_encoding
+Family : Stratix 10
+Device : 1SG210HN3F43E3VGS1
+Power Estimation Confidence : Low: user provided insufficient toggle rate data

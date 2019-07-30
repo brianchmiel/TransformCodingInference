@@ -1,0 +1,67 @@
+Fitter Retime Stage Report for Entropy_encoding
+Sun May 26 11:49:19 2019
+Quartus Prime Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Hyper-Retimer Settings
+  2. Reset Sequence Requirement
+  3. Retiming Limit Summary
+  4. Clock Domain clk (Meets timing requirements: No further analysis performed.)
+  5. Retime Messages
+
+
+
++--------------------------------------------------------------------------------------------+
+; Hyper-Retimer Settings                                                                     ;
++------------------------------------------------------------------+---------+---------------+
+; Option                                                           ; Setting ; Default Value ;
++------------------------------------------------------------------+---------+---------------+
+; Set register location type in compiler                           ; Auto    ; Auto          ;
+; Enable Early Hyper-Retimer Optimizations                         ; Off     ; Off           ;
+; Enable Hyper-Aware register chain optimizations in compiler flow ; Off     ; Off           ;
++------------------------------------------------------------------+---------+---------------+
+
+
++------------------------------------------+
+; Reset Sequence Requirement               ;
++------------+-----------------------------+
+; Clock Name ; Number of additional cycles ;
++------------+-----------------------------+
+; clk        ; 2                           ;
++------------+-----------------------------+
+Note: Due to retiming optimizations, a clock domain may require a longer reset sequence to ensure correct functionality.  The table above indicates the minimum number of additional reset sequence cycles needed for each clock domain.
+
+
++-----------------------------------------------------------------------------------------------+
+; Retiming Limit Summary                                                                        ;
++------------------+-----------------------------------------------------------+----------------+
+; Clock Transfer   ; Limiting Reason                                           ; Recommendation ;
++------------------+-----------------------------------------------------------+----------------+
+; Clock Domain clk ; Meets timing requirements: No further analysis performed. ; None           ;
++------------------+-----------------------------------------------------------+----------------+
+
+
+Clock Domain clk (Meets timing requirements: No further analysis performed.)
+===============================================================================
+
+
++-----------------+
+; Retime Messages ;
++-----------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Fitter
+    Info: Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+    Info: Processing started: Sun May 26 11:23:46 2019
+Info: Command: quartus_fit --read_settings_files=on --write_settings_files=off Entropy_encoding -c Entropy_encoding --place --route --retime --finalize
+Info: qfit2_default_script.tcl version: #1
+Info: Project  = Entropy_encoding
+Info: Revision = Entropy_encoding
+Info (17966): Starting Hyper-Retimer operations.
+Info (18914): The Hyper-Retimer was unable to optimize the design due to retiming restrictions. Run Fast Forward Timing Closure Recommendations to see step-by-step suggestions for design changes and show the estimated performance improvement from making these changes.
+Info (17968): Completed Hyper-Retimer operations.
+Info (18821): Fitter Hyper-Retimer operations ending: elapsed time is 00:01:50
+
+

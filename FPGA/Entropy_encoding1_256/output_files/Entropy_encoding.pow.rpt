@@ -1,0 +1,288 @@
+Power Analyzer report for Entropy_encoding
+Wed May 22 13:42:55 2019
+Quartus Prime Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Parallel Compilation
+  3. Power Analyzer Summary
+  4. Power Savings Summary
+  5. Power Analyzer Settings
+  6. Power Analyzer Messages
+  7. Operating Conditions Used
+  8. Thermal Power Dissipation by Block Type
+  9. Current Drawn per Supply
+ 10. I/O Current Drawn per Supply
+ 11. I/O Current Drawn by Voltage
+ 12. Confidence Metric Details
+ 13. Signal Activities
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 6           ;
+; Maximum allowed            ; 6           ;
+;                            ;             ;
+; Average used               ; 1.30        ;
+; Maximum used               ; 6           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processors 2-6         ;   6.1%      ;
++----------------------------+-------------+
+
+
++--------------------------------------------------------------------------------------------------+
+; Power Analyzer Summary                                                                           ;
++-----------------------------------------------+--------------------------------------------------+
+; Power Analyzer Status                         ; Successful - Wed May 22 13:42:52 2019            ;
+; Quartus Prime Version                         ; 17.1.0 Build 240 10/25/2017 SJ Pro Edition       ;
+; Revision Name                                 ; Entropy_encoding                                 ;
+; Top-level Entity Name                         ; Entropy_encoding                                 ;
+; Family                                        ; Stratix 10                                       ;
+; Device                                        ; 1SX280LU3F50I2VG                                 ;
+; Power Models                                  ; Preliminary                                      ;
+; Total Thermal Power Dissipation               ; 6200.35 mW                                       ;
+; Transceiver Standby Thermal Power Dissipation ; 0.00 mW                                          ;
+; Transceiver Dynamic Thermal Power Dissipation ; 0.00 mW                                          ;
+; I/O Standby Thermal Power Dissipation         ; 0.00 mW                                          ;
+; I/O Dynamic Thermal Power Dissipation         ; 0.00 mW                                          ;
+; Core Dynamic Thermal Power Dissipation        ; 1545.51 mW                                       ;
+; HPS Standby Thermal Power Dissipation         ; 0.00 mW                                          ;
+; HPS Dynamic Thermal Power Dissipation         ; 0.00 mW                                          ;
+; Device Static Thermal Power Dissipation       ; 4654.85 mW                                       ;
+; COPACKAGED Standby Thermal Power Dissipation  ; 0.00 mW                                          ;
+; COPACKAGED Dynamic Thermal Power Dissipation  ; 0.00 mW                                          ;
+; Power Estimation Confidence                   ; Low: user provided insufficient toggle rate data ;
++-----------------------------------------------+--------------------------------------------------+
+
+
++--------------------------------------+
+; Power Savings Summary                ;
++------------------------+-------------+
+; Power Savings Type     ; Power Saved ;
++------------------------+-------------+
+; SmartVID Power Savings ; 0.00 mW     ;
++------------------------+-------------+
+
+
++------------------------------------------------------------------------------------------------------+
+; Power Analyzer Settings                                                                              ;
++----------------------------------------------------------------------------+---------+---------------+
+; Option                                                                     ; Setting ; Default Value ;
++----------------------------------------------------------------------------+---------+---------------+
+; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation ; On      ; On            ;
+; Enable compact report table                                                ; Off     ; Off           ;
+; Default Power Toggle Rate                                                  ; 12.5%   ; 12.5%         ;
+; Default Power Input I/O Toggle Rate                                        ; 12.5%   ; 12.5%         ;
+; Use vectorless estimation                                                  ; On      ; On            ;
+; Use Input Files                                                            ; Off     ; Off           ;
+; Filter Glitches in VCD File Reader                                         ; On      ; On            ;
+; Power Analyzer Report Signal Activity                                      ; Off     ; Off           ;
+; Power Analyzer Report Power Dissipation                                    ; Off     ; Off           ;
+; Device Power Characteristics                                               ; TYPICAL ; TYPICAL       ;
+; Specified Junction Temperature                                             ; 25      ; 25            ;
+; Enable HPS                                                                 ; Off     ; Off           ;
+; Processor Frequency                                                        ; 0.0     ; 0.0           ;
++----------------------------------------------------------------------------+---------+---------------+
+
+
++-------------------------+
+; Power Analyzer Messages ;
++-------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Power Analyzer
+    Info: Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+    Info: Processing started: Wed May 22 13:35:13 2019
+Info: Command: quartus_pow --read_settings_files=off --write_settings_files=off Entropy_encoding -c Entropy_encoding
+Info (16677): Loading final database
+Info (16734): Loading "final" snapshot for partition "root_partition".
+Info (16678): Successfully loaded final database: elapsed time is 00:00:41
+Info (21077): Low junction temperature is -40 degrees C
+Info (21077): High junction temperature is 100 degrees C
+Info (19539): Reading the HDL-embedded SDC files elapsed 00:00:00.
+Info (332104): Reading SDC File: 'Entropy_encoding.sdc'
+Info (19449): Reading SDC files elapsed 00:00:07.
+Info (332143): No user constrained clock uncertainty found in the design. Calling "derive_clock_uncertainty"
+Warning (332158): Clock uncertainty characteristics of the Stratix 10 device family are preliminary
+Info (332154): The derive_clock_uncertainty command did not apply clock uncertainty to any clock-to-clock transfers.
+Warning (332158): Clock uncertainty characteristics of the Stratix 10 device family are preliminary
+Info (332154): The derive_clock_uncertainty command did not apply clock uncertainty to any clock-to-clock transfers.
+Warning (332158): Clock uncertainty characteristics of the Stratix 10 device family are preliminary
+Info (332154): The derive_clock_uncertainty command did not apply clock uncertainty to any clock-to-clock transfers.
+Warning (332158): Clock uncertainty characteristics of the Stratix 10 device family are preliminary
+Info (332154): The derive_clock_uncertainty command did not apply clock uncertainty to any clock-to-clock transfers.
+Warning (332158): Clock uncertainty characteristics of the Stratix 10 device family are preliminary
+Info (332154): The derive_clock_uncertainty command did not apply clock uncertainty to any clock-to-clock transfers.
+Warning (332158): Clock uncertainty characteristics of the Stratix 10 device family are preliminary
+Info (332154): The derive_clock_uncertainty command did not apply clock uncertainty to any clock-to-clock transfers.
+Info (223000): Starting Vectorless Power Activity Estimation
+Info (223001): Completed Vectorless Power Activity Estimation
+Critical Warning (16079): The selected device has an HPS.  HPS power is not modeled in this release of Power Analyzer.  Please use the Early Power Estimator (EPE) to model HPS power.
+Info (218000): Using Advanced I/O Power to simulate I/O buffers with the specified board trace model
+Warning (18292): Advance timing characteristics for device 1SX280LU3F50I2VG. Delays will change in future releases.
+Info (215049): Average toggle rate for this design is 0.000 millions of transitions / sec
+Info (215031): Total thermal power estimate for the design is 6200.35 mW
+Info: Quartus Prime Power Analyzer was successful. 0 errors, 8 warnings
+    Info: Peak virtual memory: 33076 megabytes
+    Info: Processing ended: Wed May 22 13:43:02 2019
+    Info: Elapsed time: 00:07:49
+    Info: Total CPU time (on all processors): 00:14:01
+
+
++---------------------------------------------------------+
+; Operating Conditions Used                               ;
++-----------------------------------+---------------------+
+; Setting                           ; Value               ;
++-----------------------------------+---------------------+
+; Device power characteristics      ; Typical             ;
+;                                   ;                     ;
+; Voltages                          ;                     ;
+;     VCCP                          ; 0.90 V              ;
+;     VCCPT                         ; 1.80 V              ;
+;     VCCA_PLL                      ; 1.80 V              ;
+;     VCC                           ; 0.90 V              ;
+;     VCCL_HPS                      ; 0.90 V              ;
+;     VCCIO_HPS                     ; 1.80 V              ;
+;     VCCPLL_HPS                    ; 1.80 V              ;
+;     VCCERAM                       ; 0.90 V              ;
+;     VCCIO_SDM                     ; 1.80 V              ;
+;     VCCFUSEWR_SDM                 ; 2.40 V              ;
+;     VCCPLL_SDM                    ; 1.80 V              ;
+;     VCCPLLDIG_SDM                 ; 0.90 V              ;
+;     VCCPLLDIG_HPS                 ; 0.90 V              ;
+;     VCCADC                        ; 1.80 V              ;
+;     VCCBAT                        ; 1.20 V              ;
+;     1.8 V I/O Standard            ; 1.8 V               ;
+;                                   ;                     ;
+; User entered junction temperature ; 0.0 degrees Celsius ;
++-----------------------------------+---------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------------------------------+
+; Thermal Power Dissipation by Block Type                                                                                                            ;
++--------------------+-----------------------------------+-----------------------------+-----------------------------+-------------------------------+
+; Block Type         ; Total Thermal Power by Block Type ; Block Thermal Dynamic Power ; Block Thermal Standby Power ; Routing Thermal Dynamic Power ;
++--------------------+-----------------------------------+-----------------------------+-----------------------------+-------------------------------+
+; Combinational cell ; 0.04 mW                           ; 0.04 mW                     ; 0.00 mW                     ; 0.00 mW                       ;
+; Clock Network      ; 1545.46 mW                        ; 537.02 mW                   ; 0.00 mW                     ; 1008.44 mW                    ;
++--------------------+-----------------------------------+-----------------------------+-----------------------------+-------------------------------+
+
+
++-------------------------------------------------------------------------------------------------------------+
+; Current Drawn per Supply                                                                                    ;
++----------------+---------------------+-----------------------+-----------------------+----------------------+
+; Voltage Supply ; Total Current Drawn ; Dynamic Current Drawn ; Standby Current Drawn ; Static Current Drawn ;
++----------------+---------------------+-----------------------+-----------------------+----------------------+
+; VCCP           ; 138.03 mA           ; 0.00 mA               ; 0.06 mA               ; 137.98 mA            ;
+; VCCPT          ; 1603.67 mA          ; 0.00 mA               ; 0.00 mA               ; 1603.67 mA           ;
+; VCCA_PLL       ; 85.60 mA            ; 0.00 mA               ; 0.00 mA               ; 85.60 mA             ;
+; VCC            ; 3077.61 mA          ; 1717.23 mA            ; 0.00 mA               ; 1360.39 mA           ;
+; VCCL_HPS       ; 0.00 mA             ; 0.00 mA               ; 0.00 mA               ; 0.00 mA              ;
+; VCCIO_HPS      ; 0.00 mA             ; 0.00 mA               ; 0.00 mA               ; 0.00 mA              ;
+; VCCPLL_HPS     ; 0.00 mA             ; 0.00 mA               ; 0.00 mA               ; 0.00 mA              ;
+; VCCERAM        ; 115.73 mA           ; 0.00 mA               ; 0.00 mA               ; 115.73 mA            ;
+; VCCIO_SDM      ; 0.13 mA             ; 0.00 mA               ; 0.00 mA               ; 0.13 mA              ;
+; VCCFUSEWR_SDM  ; 0.47 mA             ; 0.00 mA               ; 0.00 mA               ; 0.47 mA              ;
+; VCCPLL_SDM     ; 0.03 mA             ; 0.00 mA               ; 0.00 mA               ; 0.03 mA              ;
+; VCCPLLDIG_SDM  ; 0.01 mA             ; 0.00 mA               ; 0.00 mA               ; 0.01 mA              ;
+; VCCPLLDIG_HPS  ; 0.01 mA             ; 0.00 mA               ; 0.00 mA               ; 0.01 mA              ;
+; VCCADC         ; 3.00 mA             ; 0.00 mA               ; 0.00 mA               ; 3.00 mA              ;
+; VCCBAT         ; 0.00 mA             ; 0.00 mA               ; 0.00 mA               ; 0.00 mA              ;
++----------------+---------------------+-----------------------+-----------------------+----------------------+
+
+
++----------------------------------------------------------------------------------------------------------------+
+; I/O Current Drawn per Supply                                                                                   ;
++---------+---------+---------------------+-----------------------+-----------------------+----------------------+
+; Supply  ; Voltage ; Total Current Drawn ; Dynamic Current Drawn ; Standby Current Drawn ; Static Current Drawn ;
++---------+---------+---------------------+-----------------------+-----------------------+----------------------+
+; VCCIO3V ; 1.8V    ; 2.21 mA             ; 0.00 mA               ; 0.00 mA               ; 2.21 mA              ;
+; VCCIO3V ; 1.8V    ; 2.21 mA             ; 0.00 mA               ; 0.00 mA               ; 2.21 mA              ;
+; VCCIO2A ; 1.8V    ; 2.77 mA             ; 0.00 mA               ; 0.00 mA               ; 2.77 mA              ;
+; VCCIO2B ; 1.8V    ; 2.77 mA             ; 0.00 mA               ; 0.00 mA               ; 2.77 mA              ;
+; VCCIO2C ; 1.8V    ; 2.77 mA             ; 0.00 mA               ; 0.00 mA               ; 2.77 mA              ;
+; VCCIO2F ; 1.8V    ; 8.30 mA             ; 0.00 mA               ; 0.00 mA               ; 8.30 mA              ;
+; VCCIO2L ; 1.8V    ; 11.07 mA            ; 0.00 mA               ; 0.00 mA               ; 11.07 mA             ;
+; VCCIO2M ; 1.8V    ; 2.77 mA             ; 0.00 mA               ; 0.00 mA               ; 2.77 mA              ;
+; VCCIO2N ; 1.8V    ; 2.77 mA             ; 0.00 mA               ; 0.00 mA               ; 2.77 mA              ;
+; VCCIO3A ; 1.8V    ; 2.77 mA             ; 0.00 mA               ; 0.00 mA               ; 2.77 mA              ;
+; VCCIO3B ; 1.8V    ; 2.77 mA             ; 0.00 mA               ; 0.00 mA               ; 2.77 mA              ;
+; VCCIO3C ; 1.8V    ; 11.07 mA            ; 0.00 mA               ; 0.00 mA               ; 11.07 mA             ;
+; VCCIO3I ; 1.8V    ; 8.30 mA             ; 0.00 mA               ; 0.00 mA               ; 8.30 mA              ;
+; VCCIO3J ; 1.8V    ; 2.77 mA             ; 0.00 mA               ; 0.00 mA               ; 2.77 mA              ;
+; VCCIO3K ; 1.8V    ; 2.77 mA             ; 0.00 mA               ; 0.00 mA               ; 2.77 mA              ;
+; VCCIO3L ; 1.8V    ; 2.77 mA             ; 0.00 mA               ; 0.00 mA               ; 2.77 mA              ;
++---------+---------+---------------------+-----------------------+-----------------------+----------------------+
+
+
++------------------------------------------------------------------------------------------------------+
+; I/O Current Drawn by Voltage                                                                         ;
++---------+---------------------+-----------------------+-----------------------+----------------------+
+; Voltage ; Total Current Drawn ; Dynamic Current Drawn ; Standby Current Drawn ; Static Current Drawn ;
++---------+---------------------+-----------------------+-----------------------+----------------------+
+; 1.8V    ; 70.83 mA            ; 0.00 mA               ; 0.00 mA               ; 70.83 mA             ;
++---------+---------------------+-----------------------+-----------------------+----------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Confidence Metric Details                                                                                                                                   ;
++----------------------------------------------------------------------------------------+------------------+------------+-----------------+------------------+
+; Data Source                                                                            ; Total            ; Pin        ; Registered      ; Combinational    ;
++----------------------------------------------------------------------------------------+------------------+------------+-----------------+------------------+
+; Simulation (from file)                                                                 ;                  ;            ;                 ;                  ;
+;     -- Number of signals with Toggle Rate from Simulation                              ; 0 (0.0%)         ; 0 (0.0%)   ; 0 (0.0%)        ; 0 (0.0%)         ;
+;     -- Number of signals with Static Probability from Simulation                       ; 0 (0.0%)         ; 0 (0.0%)   ; 0 (0.0%)        ; 0 (0.0%)         ;
+;                                                                                        ;                  ;            ;                 ;                  ;
+; Node, entity or clock assignment                                                       ;                  ;            ;                 ;                  ;
+;     -- Number of signals with Toggle Rate from Node, entity or clock assignment        ; 2 (0.0%)         ; 0 (0.0%)   ; 0 (0.0%)        ; 2 (0.0%)         ;
+;     -- Number of signals with Static Probability from Node, entity or clock assignment ; 2 (0.0%)         ; 0 (0.0%)   ; 0 (0.0%)        ; 2 (0.0%)         ;
+;                                                                                        ;                  ;            ;                 ;                  ;
+; Vectorless estimation                                                                  ;                  ;            ;                 ;                  ;
+;     -- Number of signals with Toggle Rate from Vectorless estimation                   ; 1654387 (100.0%) ; 0 (0.0%)   ; 177343 (100.0%) ; 1477044 (100.0%) ;
+;     -- Number of signals with Zero toggle rate, from Vectorless estimation             ; 1654387 (100.0%) ; 0 (0.0%)   ; 177343 (100.0%) ; 1477044 (100.0%) ;
+;     -- Number of signals with Static Probability from Vectorless estimation            ; 1654387 (100.0%) ; 0 (0.0%)   ; 177343 (100.0%) ; 1477044 (100.0%) ;
+;                                                                                        ;                  ;            ;                 ;                  ;
+; Default assignment                                                                     ;                  ;            ;                 ;                  ;
+;     -- Number of signals with Toggle Rate from Default assignment                      ; 0 (0.0%)         ; 0 (0.0%)   ; 0 (0.0%)        ; 0 (0.0%)         ;
+;     -- Number of signals with Static Probability from Default assignment               ; 9 (0.0%)         ; 9 (100.0%) ; 0 (0.0%)        ; 0 (0.0%)         ;
+;                                                                                        ;                  ;            ;                 ;                  ;
+; Assumed 0                                                                              ;                  ;            ;                 ;                  ;
+;     -- Number of signals with Toggle Rate assumed 0                                    ; 9 (0.0%)         ; 9 (100.0%) ; 0 (0.0%)        ; 0 (0.0%)         ;
++----------------------------------------------------------------------------------------+------------------+------------+-----------------+------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------+
+; Signal Activities                                                                                                                           ;
++--------+------+---------------------------------------------+-------------------------+--------------------+--------------------------------+
+; Signal ; Type ; Toggle Rate (millions of transitions / sec) ; Toggle Rate Data Source ; Static Probability ; Static Probability Data Source ;
++--------+------+---------------------------------------------+-------------------------+--------------------+--------------------------------+
+(1) The "Signal Activity" Table has been hidden. To show this table, please select the "Write signal activities to report file" option under "Power Analyzer Settings".
+
+

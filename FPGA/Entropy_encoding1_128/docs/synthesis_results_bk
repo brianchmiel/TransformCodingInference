@@ -1,0 +1,43 @@
+
+with 1 PCA mult:
+
+Flow Status	Successful - Mon Apr 15 13:36:21 2019
+Quartus Prime Version	17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name	Entropy_encoding
+Top-level Entity Name	Entropy_encoding
+Family	Arria 10
+Device	10AX115R4F40I3SG
+Timing Models	Final
+Logic utilization (in ALMs)	33,029 / 427,200 ( 8 % )
+Total registers	46376
+Total pins	48 / 650 ( 7 % )
+Total virtual pins	0
+Total block memory bits	262,144 / 55,562,240 ( < 1 % )
+Total DSP Blocks	960 / 1,518 ( 63 % )
+Total HSSI RX channels	0 / 66 ( 0 % )
+Total HSSI TX channels	0 / 66 ( 0 % )
+Total PLLs	0 / 138 ( 0 % )
+
+with 1 PCA sum
+Flow Status	Successful - Sun Apr 21 15:06:27 2019
+Quartus Prime Version	17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name	Entropy_encoding
+Top-level Entity Name	Entropy_encoding
+Family	Arria 10
+Device	10AX115R4F40I3SG
+Timing Models	Final
+Logic utilization (in ALMs)	35,245 / 427,200 ( 8 % )
+Total registers	55098
+Total pins	48 / 650 ( 7 % )
+Total virtual pins	0
+Total block memory bits	262,144 / 55,562,240 ( < 1 % )
+Total DSP Blocks	896 / 1,518 ( 59 % )
+Total HSSI RX channels	0 / 66 ( 0 % )
+Total HSSI TX channels	0 / 66 ( 0 % )
+Total PLLs	0 / 138 ( 0 % )
+
+Logic utilization
+mult 33,029 / 427,200 ( 8 % )
+sum  35,245 / 427,200 ( 8 % )
+diff  2 216
+expected 64 -> 141,824

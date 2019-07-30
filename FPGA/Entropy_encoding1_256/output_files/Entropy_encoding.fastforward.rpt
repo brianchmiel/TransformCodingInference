@@ -1,0 +1,154 @@
+Fast Forward Timing Closure Recommendations Report for Entropy_encoding
+Tue May  7 12:10:54 2019
+Quartus Prime Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Summary
+  2. Settings
+  3. Clock Fmax Summary
+  4. Clock Worst-Case Slack Summary
+  5. Fast Forward Summary for Clock Domain clk
+  6. Critical Chain for Base Result
+  7. Meets timing requirements: No further analysis performed.
+  8. Fast Forward Messages
+
+
+
++--------------------------------------------------------------------+
+; Summary                                                            ;
++-----------------------+--------------------------------------------+
+; Fast Forward Status   ; Successful - Tue May  7 12:10:54 2019      ;
+; Quartus Prime Version ; 17.1.0 Build 240 10/25/2017 SJ Pro Edition ;
+; Revision Name         ; Entropy_encoding                           ;
+; Top-level Entity Name ; Entropy_encoding                           ;
+; Family                ; Stratix 10                                 ;
+; Device                ; 1SG280LN3F43E2VGS1                         ;
+; Timing Models         ; Preliminary (Slow 900mV 100C Model)        ;
++-----------------------+--------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------+
+; Settings                                                                                    ;
++-------------------------------------------------------------------+---------+---------------+
+; Option                                                            ; Setting ; Default Value ;
++-------------------------------------------------------------------+---------+---------------+
+; Enable Hyper-Retimer Fast Forward analysis during compilation     ; Off     ; Off           ;
+; Fast Forward Compile Maximum Additional Pipeline Stages           ; -1      ; -1            ;
+; Fast Forward Compile Asynchronous Clears                          ; Auto    ; Auto          ;
+; Fast Forward Compile User Preserve Directives                     ; Auto    ; Auto          ;
+; Fast Forward Compile Fully Register DSP blocks                    ; On      ; On            ;
+; Fast Forward Compile Fully Register RAM blocks                    ; On      ; On            ;
+; Enable Critical Chain Viewer                                      ; On      ; On            ;
+; (EMULATE) Enable Fast Forward Compile Aggressive Exploration mode ; Off     ; Off           ;
+; (EMULATE) Fast Forward Compile Additional Pipeline Stages         ; 0       ; 0             ;
+; (EMULATE) Fast Forward Compile Asynchronous Clears                ; Auto    ; Auto          ;
+; (EMULATE) Fast Forward Compile User Preserve Directives           ; Auto    ; Auto          ;
++-------------------------------------------------------------------+---------+---------------+
+To turn on Fast Forward analysis during Quartus compilation, edit the setting in the HyperFlex settings menu in the Quartus GUI or set_global_assignment -name FLOW_ENABLE_HYPER_RETIMER_FAST_FORWARD ON in your QSF
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------+
+; Clock Fmax Summary                                                                                                                        ;
++------------+---------+------------------------------+--------------------------------+----------------------------------+-----------------+
+; Clock Name ; Fmax    ; Achieved with Hyper-Retiming ; Achieved with Hyper-Pipelining ; Achieved with Hyper-Optimization ; Restricted Fmax ;
++------------+---------+------------------------------+--------------------------------+----------------------------------+-----------------+
+; clk        ; 177 MHz ; 177 MHz                      ; 177 MHz                        ; 177 MHz                          ; 177 MHz         ;
++------------+---------+------------------------------+--------------------------------+----------------------------------+-----------------+
+Fast Forward Compilation enabled: Post-place & route results are analyzed to provide step-by-step recommendations for suggested RTL changes and show the estimated performance improvement from making these changes
+- Fmax/Slack: Estimated performance from retiming existing registers in the design
+- Achieved with Hyper-Retiming: Estimated performance from analyzing optimizations to remove restrictions that prevent registers from retiming
+- Achieved with Hyper-Pipelining: Estimated performance from analyzing optimizations to add new registers to the design to pipeline paths better
+- Achieved with Hyper-Optimization: Estimated performance from analyzing optimizations to further improve the design
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------+
+; Clock Worst-Case Slack Summary                                                                                                             ;
++------------+----------------------------+------------------------------+--------------------------------+----------------------------------+
+; Clock Name ; Slack                      ; Achieved with Hyper-Retiming ; Achieved with Hyper-Pipelining ; Achieved with Hyper-Optimization ;
++------------+----------------------------+------------------------------+--------------------------------+----------------------------------+
+; clk        ; 0.600 (6.250 Relationship) ; 0.600 (6.250 Relationship)   ; 0.600 (6.250 Relationship)     ; 0.600 (6.250 Relationship)       ;
++------------+----------------------------+------------------------------+--------------------------------+----------------------------------+
+Fast Forward Compilation enabled: Post-place & route results are analyzed to provide step-by-step recommendations for suggested RTL changes and show the estimated performance improvement from making these changes
+- Fmax/Slack: Estimated performance from retiming existing registers in the design
+- Achieved with Hyper-Retiming: Estimated performance from analyzing optimizations to remove restrictions that prevent registers from retiming
+- Achieved with Hyper-Pipelining: Estimated performance from analyzing optimizations to add new registers to the design to pipeline paths better
+- Achieved with Hyper-Optimization: Estimated performance from analyzing optimizations to further improve the design
+
+
++------------------------------------------------------------------------------------------------------------------------+
+; Fast Forward Summary for Clock Domain clk                                                                              ;
++--------------------+-----------------------------------------------------------+----------------+-------+--------------+
+; Step               ; Fast Forward Optimizations Analyzed                       ; Estimated Fmax ; Slack ; Relationship ;
++--------------------+-----------------------------------------------------------+----------------+-------+--------------+
+; Base Performance   ; None                                                      ; 177 MHz        ; 0.600 ; 6.250        ;
+; Fast Forward Limit ; Meets timing requirements: No further analysis performed. ; --             ; --    ; --           ;
++--------------------+-----------------------------------------------------------+----------------+-------+--------------+
+
+
+Critical Chain for Base Result
+===============================================================================
++--------------------------------------------------------------------+
+; Critical Chain for Base Result                                     ;
++--------------------------------------------------------------------+
+; Critical Chain for Base Result                                     ;
++--------------------------------------------------------------------+
+; See 'Retiming Limit Details' results in Fitter Retime Stage folder ;
++--------------------------------------------------------------------+
+
+
+
+Meets timing requirements: No further analysis performed.
+===============================================================================
++----------------------------------------------------------------------------------------+
+; Optimizations Analyzed (Cumulative)                                                    ;
++----------------------------------------------------------------------------------------+
+; Optimizations Analyzed (Cumulative)                                                    ;
++----------------------------------------------------------------------------------------+
+; No Fast Forward optimizations analyzed to achieve this performance and critical chain. ;
++----------------------------------------------------------------------------------------+
+
+
+
++-----------------------+
+; Fast Forward Messages ;
++-----------------------+
+Can't read Quartus Prime message file /home/yyevgeny/Documents/projects/Entropy_encoding/qdb/_compiler/Entropy_encoding/_flat/17.1.0/legacy/1/Entropy_encoding.fit.fastforward.header.qmsgdb.
+Make sure the file exists and is up to date, and you have permission to read and write the file.
+Info (16677): Loading routed database
+Info (16734): Loading "routed" snapshot for partition "root_partition".
+Info (16678): Successfully loaded routed database: elapsed time is 00:00:18
+Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
+Info (21077): Low junction temperature is 0 degrees C
+Info (21077): High junction temperature is 100 degrees C
+Info (176045): Design uses memory blocks. Violating setup or hold times of memory block address registers for either read or write operations could cause memory contents to be corrupted. Make sure that all memory block address registers meet the setup and hold time requirements.
+Info (19539): Reading the HDL-embedded SDC files elapsed 00:00:00.
+Info (332104): Reading SDC File: 'Entropy_encoding.sdc'
+Info (19449): Reading SDC files elapsed 00:00:03.
+Info (332143): No user constrained clock uncertainty found in the design. Calling "derive_clock_uncertainty"
+Warning (332158): Clock uncertainty characteristics of the Stratix 10 device family are preliminary
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in TimeQuest to see clock uncertainties.
+Warning (332158): Clock uncertainty characteristics of the Stratix 10 device family are preliminary
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in TimeQuest to see clock uncertainties.
+Warning (332158): Clock uncertainty characteristics of the Stratix 10 device family are preliminary
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in TimeQuest to see clock uncertainties.
+Info (332129): Detected timing requirements -- optimizing circuit to achieve only the specified requirements
+Info (332111): Found 1 clocks
+    Info (332111):   Period   Clock Name
+    Info (332111): ======== ============
+    Info (332111):    6.250          clk
+Info (18747): Starting Fast Forward Timing Closure Recommendations analysis.
+Info (19245): Unable to provide further Fast Forward analysis of the design due to retiming restrictions (RTL or timing constraints).
+Info (19245): Unable to provide further Fast Forward analysis of the design due to retiming restrictions (RTL or timing constraints).
+Info (18748): Completed Fast Forward Timing Closure Recommendations analysis.
+Info (18821): Fitter Hyper-Retimer operations ending: elapsed time is 00:01:40
+Info: Quartus Prime Fitter was successful. 0 errors, 3 warnings
+    Info: Peak virtual memory: 16412 megabytes
+    Info: Processing ended: Tue May  7 12:11:12 2019
+    Info: Elapsed time: 00:03:21
+    Info: Total CPU time (on all processors): 00:05:42
+Info (19538): Reading SDC files took 00:00:03 cumulatively in this process.
+
+

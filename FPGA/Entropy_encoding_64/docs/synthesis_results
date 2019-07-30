@@ -1,0 +1,470 @@
+summary:
+Frame 256x256
+8 bit data in
+12 bit Max Huff code
+10 read buffer deph
+freq required 160MHz
+
+Alex
+256
+   2 oFF
+Power Total   6200mW
+Power Dynamic 1545mW
+LUT            477K
+Freq           200M
+
+128bits
+bug Huf        2off bug       2off fixed        Huff
+Power Total   (6,018mW  )                      5,531mW
+Power Dynamic (1,358mW  )                        876mW
+LUT           (  229K (25%))                    221K (24%)
+mem           (   524K  )                       6,4K 
+Freq          ( 194M   )                        214M
+
+huff fixed
+     64 bits
+bug Huf        2off               Huff       | 2of 100MHz    
+Power Total   5,031mW            5,037mW         4507mW
+Power Dynamic   377mW              382mW          192mW 
+LUT             95K (11%)           95K (10%)      86K
+mem              0                 6.4K             0
+Freq           244M                244M           156M
+
+
+bug Huf        2off               Huff
+Power   5,529mW            6014mW
+LUT       104K (11%)       140K (15%)
+Freq      199M              180M      
+
+-------------------------------
+-----   32 PCA inputs  --------
+-------------------------------
+
+                PCA/Huff
+      on/on     off/on   2off   
+Power 2781mW    2435mw 2430mW   
+LUT     17K       16K    15K    
+Mem 16,922K      145K   139K    
+DSP    448       448    448     
+Freq   151M      181M   187M    
+
+-------------------------------
+-----   64 PCA inputs  --------
+-------------------------------
+                PCA/Huff
+      on/on     off/on   2off   on/off
+Power 3735mW    3112mw 3098mW      mW
+LUT     33K       31K    31K       K
+Mem 33,831K      276K   270K       K
+DSP    896       896    896            
+Freq   146M      182M   174M       M
+
+__________________
+-- OLD (64 PCA)
+__________________
+                PCA/Huff
+                                  on/on   off/on   2off   on/off
+                              Power 7111mW  4163mw  3783mW  6623mW
+                              LUT    183K     82K     49K    149K
+                              Mem   1050K   1050K    786K    786K
+                              DSP    896     896     896     896
+                              Freq   168M    175M    171M    170M
+
+PCA only power
+20bit + dff_sum = 2950mW
+8bit + 8_sum    = 2012mW
+8bit + 8_sum - samples=1252mW (5415mW total)
+
+
+Flow Status	Successful - Thu May  9 14:01:35 2019
+Quartus Prime Version	17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name	Entropy_encoding
+Top-level Entity Name	Entropy_encoding
+Family	Stratix 10
+Device	1SM16CHU2F53E2VG
+Timing Models	Advance
+Logic utilization (in ALMs)	73,949 / 569,200 ( 13 % )
+Total dedicated logic registers	97962
+Total pins	228 / 1,112 ( 21 % )
+Total block memory bits	67,647,744 / 126,197,760 ( 54 % )
+
+---------------------------------------------------------------------------------------------------------------
+-------------------------------------   32 PCA inputs  ----------------------------------------------------
+---------------------------------------------------------------------------------------------------------------
+Flow Status	Successful - Thu May  9 14:01:35 2019
+Quartus Prime Version	17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name	Entropy_encoding
+Top-level Entity Name	Entropy_encoding
+Family	Stratix 10
+Device	1SM16CHU2F53E2VG
+Timing Models	Advance
+Logic utilization (in ALMs)	73,949 / 569,200 ( 13 % )
+Total dedicated logic registers	97962
+Total pins	228 / 1,112 ( 21 % )
+Total block memory bits	67,647,744 / 126,197,760 ( 54 % )
+
+_________________________________________________________________________________________
+                                         PCA - ON
+                                         Huffman - ON
+_________________________________________________________________________________________
+Flow Status	Successful - Wed May  8 12:28:12 2019
+Quartus Prime Version	17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name	Entropy_encoding
+Top-level Entity Name	Entropy_encoding
+Family	Arria 10
+Device	10AX115R4F40I3SG
+Timing Models	Final
+Logic utilization (in ALMs)	17,079 / 427,200 ( 4 % )
+Total registers	23672
+Total pins	227 / 650 ( 35 % )
+Total virtual pins	0
+Total block memory bits	16,922,880 / 55,562,240 ( 30 % )
+Total DSP Blocks	448 / 1,518 ( 30 % )
+
+Freq destination 160MHz
+Freq Max : 
+a. Slow +100C 151M
+b. Slow -40C 141M
+
+Total Thermal Power Dissipation	2781.41 mW
+Transceiver Standby Thermal Power Dissipation	0.00 mW
+Transceiver Dynamic Thermal Power Dissipation	0.00 mW
+I/O Standby Thermal Power Dissipation	5.32 mW
+I/O Dynamic Thermal Power Dissipation	26.67 mW
+Core Dynamic Thermal Power Dissipation	914.13 mW
+HPS Standby Thermal Power Dissipation	0.00 mW
+HPS Dynamic Thermal Power Dissipation	0.00 mW
+Device Static Thermal Power Dissipation	1835.29 mW
+COPACKAGED Standby Thermal Power Dissipation	0.00 mW
+COPACKAGED Dynamic Thermal Power Dissipation	0.00 mW
+Power Estimation Confidence	Low: user provided insufficient toggle rate data
+
+_________________________________________________________________________________________
+                                         PCA - OFF
+                                         Huffman - ON
+_________________________________________________________________________________________
+Flow Status	Successful - Wed May  8 13:25:22 2019
+Quartus Prime Version	17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name	Entropy_encoding
+Top-level Entity Name	Entropy_encoding
+Family	Arria 10
+Device	10AX115R4F40I3SG
+Timing Models	Final
+Logic utilization (in ALMs)	16,406 / 427,200 ( 4 % )
+Total registers	23248
+Total pins	227 / 650 ( 35 % )
+Total virtual pins	0
+Total block memory bits	145,664 / 55,562,240 ( < 1 % )
+Total DSP Blocks	448 / 1,518 ( 30 % )
+
+Freq destination 160MHz
+Freq Max : 
+a. Slow +100C 181M
+b. Slow -40C 182M
+
+Total Thermal Power Dissipation	2435.21 mW
+Transceiver Standby Thermal Power Dissipation	0.00 mW
+Transceiver Dynamic Thermal Power Dissipation	0.00 mW
+I/O Standby Thermal Power Dissipation	5.32 mW
+I/O Dynamic Thermal Power Dissipation	26.26 mW
+Core Dynamic Thermal Power Dissipation	629.77 mW
+HPS Standby Thermal Power Dissipation	0.00 mW
+HPS Dynamic Thermal Power Dissipation	0.00 mW
+Device Static Thermal Power Dissipation	1773.85 mW
+COPACKAGED Standby Thermal Power Dissipation	0.00 mW
+COPACKAGED Dynamic Thermal Power Dissipation	0.00 mW
+Power Estimation Confidence	Low: user provided insufficient toggle rate data
+_________________________________________________________________________________________
+                                         PCA - OFF
+                                         Huffman - OFF
+_________________________________________________________________________________________
+Flow Status	Successful - Wed May  8 13:47:49 2019
+Quartus Prime Version	17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name	Entropy_encoding
+Top-level Entity Name	Entropy_encoding
+Family	Arria 10
+Device	10AX115R4F40I3SG
+Timing Models	Final
+Logic utilization (in ALMs)	15,713 / 427,200 ( 4 % )
+Total registers	22895
+Total pins	227 / 650 ( 35 % )
+Total virtual pins	0
+Total block memory bits	139,264 / 55,562,240 ( < 1 % )
+Total DSP Blocks	448 / 1,518 ( 30 % )
+
+Freq destination 160MHz
+Freq Max : 
+a. Slow +100C 187M
+b. Slow -40C 196M
+
+Total Thermal Power Dissipation	2430.95 mW
+Transceiver Standby Thermal Power Dissipation	0.00 mW
+Transceiver Dynamic Thermal Power Dissipation	0.00 mW
+I/O Standby Thermal Power Dissipation	5.32 mW
+I/O Dynamic Thermal Power Dissipation	26.26 mW
+Core Dynamic Thermal Power Dissipation	626.37 mW
+HPS Standby Thermal Power Dissipation	0.00 mW
+HPS Dynamic Thermal Power Dissipation	0.00 mW
+Device Static Thermal Power Dissipation	1773.00 mW
+COPACKAGED Standby Thermal Power Dissipation	0.00 mW
+COPACKAGED Dynamic Thermal Power Dissipation	0.00 mW
+Power Estimation Confidence	Low: user provided insufficient toggle rate data
+---------------------------------------------------------------------------------------------------------------
+-------------------------------------   64 PCA inputs  ----------------------------------------------------
+---------------------------------------------------------------------------------------------------------------
+_________________________________________________________________________________________
+                                         PCA - ON
+                                         Huffman - ON
+_________________________________________________________________________________________
+
+Flow Status	Successful - Wed May  8 09:15:34 2019
+Quartus Prime Version	17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name	Entropy_encoding
+Top-level Entity Name	Entropy_encoding
+Family	Arria 10
+Device	10AX115R4F40I3SG
+Timing Models	Final
+Logic utilization (in ALMs)	33,365 / 427,200 ( 8 % )
+Total registers	46332
+Total pins	227 / 650 ( 35 % )
+Total virtual pins	0
+Total block memory bits	33,831,168 / 55,562,240 ( 61 % )
+Total DSP Blocks	896 / 1,518 ( 59 % )
+
+Freq destination 160MHz
+Freq Max : 
+a. Slow +100C 146M
+b. Slow -40C 135M
+
+Total Thermal Power Dissipation	3735.90 mW
+Transceiver Standby Thermal Power Dissipation	0.00 mW
+Transceiver Dynamic Thermal Power Dissipation	0.00 mW
+I/O Standby Thermal Power Dissipation	5.32 mW
+I/O Dynamic Thermal Power Dissipation	26.67 mW
+Core Dynamic Thermal Power Dissipation	1763.14 mW
+HPS Standby Thermal Power Dissipation	0.00 mW
+HPS Dynamic Thermal Power Dissipation	0.00 mW
+Device Static Thermal Power Dissipation	1940.77 mW
+COPACKAGED Standby Thermal Power Dissipation	0.00 mW
+COPACKAGED Dynamic Thermal Power Dissipation	0.00 mW
+Power Estimation Confidence	Low: user provided insufficient toggle rate data
+
+_________________________________________________________________________________________
+                                         PCA - OFF
+                                         Huffman - ON
+_________________________________________________________________________________________
+
+Flow Status	Successful - Tue May  7 17:19:13 2019
+Quartus Prime Version	17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name	Entropy_encoding
+Top-level Entity Name	Entropy_encoding
+Family	Arria 10
+Device	10AX115R4F40I3SG
+Timing Models	Final
+Logic utilization (in ALMs)	31,701 / 427,200 ( 7 % )
+Total registers	45431
+Total pins	227 / 650 ( 35 % )
+Total virtual pins	0
+Total block memory bits	276,736 / 55,562,240 ( < 1 % )
+Total DSP Blocks	896 / 1,518 ( 59 % )
+
+Freq destination 160MHz
+Freq Max : 
+a. Slow +100C 182M
+b. Slow -40C 180M
+
+Total Thermal Power Dissipation	3112.13 mW
+Transceiver Standby Thermal Power Dissipation	0.00 mW
+Transceiver Dynamic Thermal Power Dissipation	0.00 mW
+I/O Standby Thermal Power Dissipation	5.32 mW
+I/O Dynamic Thermal Power Dissipation	26.26 mW
+Core Dynamic Thermal Power Dissipation	1251.88 mW
+HPS Standby Thermal Power Dissipation	0.00 mW
+HPS Dynamic Thermal Power Dissipation	0.00 mW
+Device Static Thermal Power Dissipation	1828.67 mW
+COPACKAGED Standby Thermal Power Dissipation	0.00 mW
+COPACKAGED Dynamic Thermal Power Dissipation	0.00 mW
+Power Estimation Confidence	Low: user provided insufficient toggle rate data
+
+
+_________________________________________________________________________________________
+                                         PCA - OFF
+                                         Huffman - OFF
+_________________________________________________________________________________________
+
+Flow Status	Successful - Wed May  8 11:03:10 2019
+Quartus Prime Version	17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name	Entropy_encoding
+Top-level Entity Name	Entropy_encoding
+Family	Arria 10
+Device	10AX115R4F40I3SG
+Timing Models	Final
+Logic utilization (in ALMs)	31,301 / 427,200 ( 7 % )
+Total registers	45092
+Total pins	227 / 650 ( 35 % )
+Total virtual pins	0
+Total block memory bits	270,336 / 55,562,240 ( < 1 % )
+Total DSP Blocks	896 / 1,518 ( 59 % )
+
+Freq destination 160MHz
+Freq Max : 
+a. Slow +100C 174M
+b. Slow -40C 181M
+
+Total Thermal Power Dissipation	3098.40 mW
+Transceiver Standby Thermal Power Dissipation	0.00 mW
+Transceiver Dynamic Thermal Power Dissipation	0.00 mW
+I/O Standby Thermal Power Dissipation	5.32 mW
+I/O Dynamic Thermal Power Dissipation	26.26 mW
+Core Dynamic Thermal Power Dissipation	1239.22 mW
+HPS Standby Thermal Power Dissipation	0.00 mW
+HPS Dynamic Thermal Power Dissipation	0.00 mW
+Device Static Thermal Power Dissipation	1827.60 mW
+COPACKAGED Standby Thermal Power Dissipation	0.00 mW
+COPACKAGED Dynamic Thermal Power Dissipation	0.00 mW
+Power Estimation Confidence	Low: user provided insufficient toggle rate data
+
+
+__________________________________________________________________________________________________________________________________________________________________________________
+__________________________________________________________________________________________________________________________________________________________________________________
+_________________________________________________________________________________________
+                                         PCA - ON
+                                         Huffman - ON
+_________________________________________________________________________________________
+
+Flow Status	Successful - Tue Apr 30 14:51:38 2019
+Quartus Prime Version	17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name	Entropy_encoding
+Top-level Entity Name	Entropy_encoding
+Family	Arria 10
+Device	10AX115R4F40I3SG
+Timing Models	Final
+Logic utilization (in ALMs)	183,212 / 427,200 ( 43 % )
+Total registers	443455
+Total pins	212 / 650 ( 33 % )
+Total virtual pins	0
+Total block memory bits	1,050,880 / 55,562,240 ( 2 % )
+Total DSP Blocks	896 / 1,518 ( 59 % )
+
+Freq destination 160MHz
+Freq Max : 
+a. Slow +100C 168M
+b. Slow -40C 174M
+
+Total Thermal Power Dissipation	7111.00 mW
+Transceiver Standby Thermal Power Dissipation	0.00 mW
+Transceiver Dynamic Thermal Power Dissipation	0.00 mW
+I/O Standby Thermal Power Dissipation	5.12 mW
+I/O Dynamic Thermal Power Dissipation	26.45 mW
+Core Dynamic Thermal Power Dissipation	4950.66 mW
+HPS Standby Thermal Power Dissipation	0.00 mW
+HPS Dynamic Thermal Power Dissipation	0.00 mW
+Device Static Thermal Power Dissipation	2128.76 mW
+COPACKAGED Standby Thermal Power Dissipation	0.00 mW
+COPACKAGED Dynamic Thermal Power Dissipation	0.00 mW
+Power Estimation Confidence	Low: user provided insufficient toggle rate data
+_________________________________________________________________________________________
+                                         PCA - OFF
+                                         Huffman - ON
+_________________________________________________________________________________________
+Flow Status	Successful - Wed May  1 11:30:44 2019
+Quartus Prime Version	17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name	Entropy_encoding
+Top-level Entity Name	Entropy_encoding
+Family	Arria 10
+Device	10AX115R4F40I3SG
+Timing Models	Final
+Logic utilization (in ALMs)	82,233 / 427,200 ( 19 % )
+Total registers	104316
+Total pins	212 / 650 ( 33 % )
+Total virtual pins	0
+Total block memory bits	1,050,880 / 55,562,240 ( 2 % )
+Total DSP Blocks	896 / 1,518 ( 59 % )
+
+Freq destination 160MHz
+Freq Max : 
+a. Slow +100C 175M
+b. Slow -40C 172M
+
+Total Thermal Power Dissipation	4163.81 mW
+Transceiver Standby Thermal Power Dissipation	0.00 mW
+Transceiver Dynamic Thermal Power Dissipation	0.00 mW
+I/O Standby Thermal Power Dissipation	5.12 mW
+I/O Dynamic Thermal Power Dissipation	26.45 mW
+Core Dynamic Thermal Power Dissipation	2220.10 mW
+HPS Standby Thermal Power Dissipation	0.00 mW
+HPS Dynamic Thermal Power Dissipation	0.00 mW
+Device Static Thermal Power Dissipation	1912.13 mW
+COPACKAGED Standby Thermal Power Dissipation	0.00 mW
+COPACKAGED Dynamic Thermal Power Dissipation	0.00 mW
+Power Estimation Confidence	Low: user provided insufficient toggle rate data
+
+_________________________________________________________________________________________
+                                         PCA - OFF
+                                         Huffman - OFF
+_________________________________________________________________________________________
+Flow Status	Successful - Wed May  1 12:11:32 2019
+Quartus Prime Version	17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name	Entropy_encoding
+Top-level Entity Name	Entropy_encoding
+Family	Arria 10
+Device	10AX115R4F40I3SG
+Timing Models	Final
+Logic utilization (in ALMs)	48,970 / 427,200 ( 11 % )
+Total registers	84290
+Total pins	212 / 650 ( 33 % )
+Total virtual pins	0
+Total block memory bits	786,432 / 55,562,240 ( 1 % )
+Total DSP Blocks	896 / 1,518 ( 59 % )
+
+Freq destination 160MHz
+Freq Max : 
+a. Slow +100C 171M
+b. Slow -40C 176M
+Total Thermal Power Dissipation	3783.01 mW
+Transceiver Standby Thermal Power Dissipation	0.00 mW
+Transceiver Dynamic Thermal Power Dissipation	0.00 mW
+I/O Standby Thermal Power Dissipation	5.12 mW
+I/O Dynamic Thermal Power Dissipation	26.45 mW
+Core Dynamic Thermal Power Dissipation	1872.65 mW
+HPS Standby Thermal Power Dissipation	0.00 mW
+HPS Dynamic Thermal Power Dissipation	0.00 mW
+Device Static Thermal Power Dissipation	1878.78 mW
+COPACKAGED Standby Thermal Power Dissipation	0.00 mW
+COPACKAGED Dynamic Thermal Power Dissipation	0.00 mW
+Power Estimation Confidence	Low: user provided insufficient toggle rate data
+_________________________________________________________________________________________
+                                         PCA - ON
+                                         Huffman - OFF
+_________________________________________________________________________________________
+Flow Status	Successful - Wed May  1 13:34:17 2019
+Quartus Prime Version	17.1.0 Build 240 10/25/2017 SJ Pro Edition
+Revision Name	Entropy_encoding
+Top-level Entity Name	Entropy_encoding
+Family	Arria 10
+Device	10AX115R4F40I3SG
+Timing Models	Final
+Logic utilization (in ALMs)	149,031 / 427,200 ( 35 % )
+Total registers	419337
+Total pins	212 / 650 ( 33 % )
+Total virtual pins	0
+Total block memory bits	786,432 / 55,562,240 ( 1 % )
+Total DSP Blocks	896 / 1,518 ( 59 % )
+
+Freq destination 160MHz
+Freq Max : 
+a. Slow +100C 170M
+b. Slow -40C 172M
+
+Total Thermal Power Dissipation	6622.68 mW
+Transceiver Standby Thermal Power Dissipation	0.00 mW
+Transceiver Dynamic Thermal Power Dissipation	0.00 mW
+I/O Standby Thermal Power Dissipation	5.12 mW
+I/O Dynamic Thermal Power Dissipation	26.45 mW
+Core Dynamic Thermal Power Dissipation	4507.12 mW
+HPS Standby Thermal Power Dissipation	0.00 mW
+HPS Dynamic Thermal Power Dissipation	0.00 mW
+Device Static Thermal Power Dissipation	2083.99 mW
+COPACKAGED Standby Thermal Power Dissipation	0.00 mW
+COPACKAGED Dynamic Thermal Power Dissipation	0.00 mW
+

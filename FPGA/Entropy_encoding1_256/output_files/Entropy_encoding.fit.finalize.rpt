@@ -1,0 +1,83 @@
+Fitter Finalize Stage Report for Entropy_encoding
+Wed May 22 13:28:53 2019
+Quartus Prime Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Routing Usage Summary
+  3. Finalize Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++-----------------------------------------------------------------+
+; Routing Usage Summary                                           ;
++--------------------------------+--------------------------------+
+; Routing Resource Type          ; Usage                          ;
++--------------------------------+--------------------------------+
+; Block Input Muxes              ; 0 / 675,444 ( 0 % )            ;
+; Block interconnects            ; 1,295,206 / 9,132,912 ( 14 % ) ;
+; C16 interconnects              ; 6,292 / 226,512 ( 3 % )        ;
+; C2 interconnects               ; 128,849 / 1,359,072 ( 9 % )    ;
+; C3 interconnects               ; 192,238 / 2,758,032 ( 7 % )    ;
+; C4 interconnects               ; 203,305 / 1,772,208 ( 11 % )   ;
+; CLOCK_INVERTs                  ; 0 / 7,616 ( 0 % )              ;
+; DCM_muxes                      ; 0 / 1,632 ( 0 % )              ;
+; Direct links                   ; 396,603 / 9,132,912 ( 4 % )    ;
+; GAP Interconnects              ; 3,416 / 267,192 ( 1 % )        ;
+; GAPs                           ; 8 / 29,304 ( < 1 % )           ;
+; HIO Buffers                    ; 0 / 209,664 ( 0 % )            ;
+; Horizontal Buffers             ; 637 / 176,364 ( < 1 % )        ;
+; Horizontal_clock_segment_muxes ; 88 / 7,488 ( 1 % )             ;
+; Programmable Inverts           ; 0 / 318,960 ( 0 % )            ;
+; R10 interconnects              ; 142,358 / 2,456,208 ( 6 % )    ;
+; R2 interconnects               ; 164,065 / 2,265,120 ( 7 % )    ;
+; R24 interconnects              ; 4,895 / 293,040 ( 2 % )        ;
+; R24/C16 interconnect drivers   ; 6,124 / 453,024 ( 1 % )        ;
+; R4 interconnects               ; 277,178 / 3,248,028 ( 9 % )    ;
+; Row Clock Tap-Offs             ; 14,893 / 725,544 ( 2 % )       ;
+; Switchbox_clock_muxes          ; 310 / 41,600 ( < 1 % )         ;
+; Vertical_seam_tap_muxes        ; 259 / 22,848 ( 1 % )           ;
++--------------------------------+--------------------------------+
+
+
++-------------------+
+; Finalize Messages ;
++-------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Fitter
+    Info: Version 17.1.0 Build 240 10/25/2017 SJ Pro Edition
+    Info: Processing started: Wed May 22 11:12:36 2019
+Info: Command: quartus_fit --read_settings_files=off --write_settings_files=off Entropy_encoding -c Entropy_encoding
+Info: qfit2_default_script.tcl version: #1
+Info: Project  = Entropy_encoding
+Info: Revision = Entropy_encoding
+Info (19262): Fitter post-routing fixup operations beginning
+Info (170195): Router estimated average interconnect usage is 7% of the available device resources
+    Info (170196): Router estimated peak interconnect usage is 14% of the available device resources in the region that extends from location X72_Y168 to location X83_Y179
+Info (11888): Total time spent on timing analysis during Routing is 40.27 seconds.
+Info (18822): Fitter post-routing fixup operations ending: elapsed time is 00:31:38
+Info (16557): Fitter post-fit operations ending: elapsed time is 00:50:46
+
+
