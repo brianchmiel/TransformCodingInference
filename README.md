@@ -13,7 +13,8 @@ Arxiv link - TODO
 
 # HW Implementation
 
-TODO
+Full explanation of the Hardware implementation, including VHDL code can be found in:
+https://github.com/CompressTeam/TransformCodingInference/tree/master/FPGA
 
 # Datasets  
   
