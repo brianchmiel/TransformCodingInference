@@ -34,23 +34,23 @@ Some snapshots of simulation results. More tesbenches are in the code.
 
 ![results](docs/ConvLayer_basic_9_mult_and_sum.png)
 
-Zoom of a basic 'Convolution' unit in a convolution process:
-Data2conv[1:9] – data input. (3 upper values are 0 because it's the first line with zero padding)
-W[1:9] – weights
-C[01:09] – result of multiplication
-c[10:c12] – 1 stage sum result
-C[13] – final result
+Zoom of a basic 'Convolution' unit in a convolution process:\
+Data2conv[1:9] – data input. (3 upper values are 0 because it's the first line with zero padding)\
+W[1:9] – weights\
+C[01:09] – result of multiplication\
+c[10:c12] – 1 stage sum result\
+C[13] – final result\
 
 
 ![results](docs/Huffman_init_and_data_coding.png)
 
-Test of Huffman block initialization and data coding
-init_en - initialization
-alpha_data – “letter”
-alpha_code – coded “letter”
-alpha_width – width of coded “letter”
-d01_in – data input
-h01_out – several letters, coded to 16 bit word
+Test of Huffman block initialization and data coding:\
+init_en - initialization\
+alpha_data – “letter”\
+alpha_code – coded “letter”\
+alpha_width – width of coded “letter”\
+d01_in – data input\
+h01_out – several letters, coded to 16 bit word\
 
 
 
