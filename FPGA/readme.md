@@ -4,7 +4,7 @@
 
 This folder contains the FPGA VHDL code used to test the resource needed to implement the PCA 
 
-compression algorithm.
+compression algorithm. 
 
 
 # Folder Structure
@@ -29,6 +29,8 @@ algorithm, so we only care about the amount of data that will be read and writte
 
 
 # Simulation Results
+
+The Stratix10 device number that was used for the simulations was 1SX280LU3F50I2VG.
 
 Some snapshots of simulation results. More tesbenches are in the code.
 
