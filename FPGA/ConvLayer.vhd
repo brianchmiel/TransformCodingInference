@@ -2,690 +2,564 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_SIGNED.ALL;
+use ieee.math_real.all;
+library work;
+use work.ConvLayer_types_package.all;
 
 entity ConvLayer is
   generic (
-  	       mult_sum      : string := "sum";
-           N             : integer := 8; -- input data width
-           M             : integer := 8; -- input weight width
+           Relu          : string := "yes";  --"no"/"yes"  -- nonlinear Relu function
+           BP            : string := "no";   --"no"/"yes"  -- Bypass
+           TP            : string := "no";   --"no"/"yes"  -- Test pattern output
+  	       mult_sum      : string := "sum"; --"mult"/"sum";
+           Kernel_size   : integer := 5; -- 3/5
+           zero_padding  : string := "yes";  --"no"/"yes"
+           stride        : integer := 1;
+           CL_inputs     : integer := 3; -- number of inputs features
+           CL_outs       : integer := 4; -- number of output features
+
+           --CL_outs      : integer := 3; -- number of CL units
+           N             : integer := 8; --W; -- input data width
+           M             : integer := 8; --W; -- input weight width
            W             : integer := 8; -- output data width      (Note, W+SR <= N+M+4)
-           SR            : integer := 2; -- data shift right before output
+           SR            : integer := 1; -- data shift right before output (deleted LSBs)
            --bpp           : integer := 8; -- bit per pixel
-  	       in_row        : integer := 256;
-  	       in_col        : integer := 256
+  	       in_row        : integer := 114;
+  	       in_col        : integer := 114
   	       );
   port    (
            clk     : in std_logic;
            rst     : in std_logic;
-  	       d_in    : in std_logic_vector (N-1 downto 0);
+  	       d_in    : in vec(0 to CL_inputs -1)(N-1 downto 0); --invec;                                      --std_logic_vector (N-1 downto 0);
   	       en_in   : in std_logic;
   	       sof_in  : in std_logic; -- start of frame
   	       --sol     : in std_logic; -- start of line
   	       --eof     : in std_logic; -- end of frame
 
-           w_in    : in std_logic_vector(M-1 downto 0);
-           w_num   : in std_logic_vector(  3 downto 0);
+           w_unit_n: in std_logic_vector( 15 downto 0);  -- address weight generators,  8MSB - CL inputs, 8LSB - CL outputs
+           w_in    : in std_logic_vector(M-1 downto 0);  -- value
+           w_num   : in std_logic_vector(  4 downto 0);  -- number of weight
            w_en    : in std_logic;
 
-           d_out   : out std_logic_vector (W-1 downto 0);
+           d_out   : out vec(0 to CL_outs -1)(W-1 downto 0); --std_logic_vector (W-1 downto 0); --vec;
            en_out  : out std_logic;
            sof_out : out std_logic);
 end ConvLayer;
 
 architecture a of ConvLayer is
 
-constant EN_BIT  : integer range 0 to 1 := 0;
-constant SOF_BIT : integer range 0 to 1 := 1;
+component ConvLayer_calc is
+  generic (
+           --Relu          : string := "yes"; --"no"/"yes"  -- nonlinear Relu function
+           BP            : string := "no";  --"no"/"yes"  -- Bypass
+           TP            : string := "no";  --"no"/"yes"  -- Test pattern output
+           mult_sum      : string := "sum"; --"mult"/"sum"
+           Kernel_size   : integer := 3; -- 3/5
+           N             : integer := 8; -- input data width
+           M             : integer := 8; -- input weight width
+           W             : integer := 8  -- output data width      (Note, W+SR <= N+M+4)
+           --SR            : integer := 2 -- data shift right before output
+           );
+  port    (
+           clk         : in std_logic;
+           rst         : in std_logic;
+           data2conv1  : in std_logic_vector (N-1 downto 0);
+           data2conv2  : in std_logic_vector (N-1 downto 0);
+           data2conv3  : in std_logic_vector (N-1 downto 0);
+           data2conv4  : in std_logic_vector (N-1 downto 0);
+           data2conv5  : in std_logic_vector (N-1 downto 0);
+           data2conv6  : in std_logic_vector (N-1 downto 0);
+           data2conv7  : in std_logic_vector (N-1 downto 0);
+           data2conv8  : in std_logic_vector (N-1 downto 0);
+           data2conv9  : in std_logic_vector (N-1 downto 0);
+           data2conv10 : in std_logic_vector (N-1 downto 0);
+           data2conv11 : in std_logic_vector (N-1 downto 0);
+           data2conv12 : in std_logic_vector (N-1 downto 0);
+           data2conv13 : in std_logic_vector (N-1 downto 0);
+           data2conv14 : in std_logic_vector (N-1 downto 0);
+           data2conv15 : in std_logic_vector (N-1 downto 0);
+           data2conv16 : in std_logic_vector (N-1 downto 0);
+           data2conv17 : in std_logic_vector (N-1 downto 0);
+           data2conv18 : in std_logic_vector (N-1 downto 0);
+           data2conv19 : in std_logic_vector (N-1 downto 0);
+           data2conv20 : in std_logic_vector (N-1 downto 0);
+           data2conv21 : in std_logic_vector (N-1 downto 0);
+           data2conv22 : in std_logic_vector (N-1 downto 0);
+           data2conv23 : in std_logic_vector (N-1 downto 0);
+           data2conv24 : in std_logic_vector (N-1 downto 0);
+           data2conv25 : in std_logic_vector (N-1 downto 0);
+           en_in       : in std_logic;
+           sof_in      : in std_logic; -- start of frame
+           --sol     : in std_logic; -- start of line
+           --eof     : in std_logic; -- end of frame
 
-signal w1      : std_logic_vector(M-1 downto 0); -- weight matrix
-signal w2      : std_logic_vector(M-1 downto 0); -- weight matrix
-signal w3      : std_logic_vector(M-1 downto 0); -- weight matrix
-signal w4      : std_logic_vector(M-1 downto 0); -- weight matrix
-signal w5      : std_logic_vector(M-1 downto 0); -- weight matrix
-signal w6      : std_logic_vector(M-1 downto 0); -- weight matrix
-signal w7      : std_logic_vector(M-1 downto 0); -- weight matrix
-signal w8      : std_logic_vector(M-1 downto 0); -- weight matrix
-signal w9      : std_logic_vector(M-1 downto 0); -- weight matrix
+          w1           : in std_logic_vector(M-1 downto 0); -- weight matrix
+          w2           : in std_logic_vector(M-1 downto 0);
+          w3           : in std_logic_vector(M-1 downto 0);
+          w4           : in std_logic_vector(M-1 downto 0);
+          w5           : in std_logic_vector(M-1 downto 0);
+          w6           : in std_logic_vector(M-1 downto 0);
+          w7           : in std_logic_vector(M-1 downto 0);
+          w8           : in std_logic_vector(M-1 downto 0);
+          w9           : in std_logic_vector(M-1 downto 0);
+          w10          : in std_logic_vector(M-1 downto 0);
+          w11          : in std_logic_vector(M-1 downto 0);
+          w12          : in std_logic_vector(M-1 downto 0);
+          w13          : in std_logic_vector(M-1 downto 0);
+          w14          : in std_logic_vector(M-1 downto 0);
+          w15          : in std_logic_vector(M-1 downto 0);
+          w16          : in std_logic_vector(M-1 downto 0);
+          w17          : in std_logic_vector(M-1 downto 0);
+          w18          : in std_logic_vector(M-1 downto 0);
+          w19          : in std_logic_vector(M-1 downto 0);
+          w20          : in std_logic_vector(M-1 downto 0);
+          w21          : in std_logic_vector(M-1 downto 0);
+          w22          : in std_logic_vector(M-1 downto 0);
+          w23          : in std_logic_vector(M-1 downto 0);
+          w24          : in std_logic_vector(M-1 downto 0);
+          w25          : in std_logic_vector(M-1 downto 0);
 
-signal d_in1,   d_in2,   d_in3   : std_logic_vector (N-1 downto 0);
-signal d_mid1,  d_mid2,  d_mid3  : std_logic_vector (N-1 downto 0);
-signal d_end1,  d_end2,  d_end3  : std_logic_vector (N-1 downto 0);
-signal en_in1,  en_in2,  en_in3  : std_logic_vector(1 downto 0);
-signal en_mid1, en_mid2, en_mid3 : std_logic_vector(1 downto 0);
-signal en_end1, en_end2, en_end3 : std_logic_vector(1 downto 0);
+           d_out       : out std_logic_vector (N + M +4  downto 0);
+           en_out      : out std_logic;
+           sof_out     : out std_logic);                     
+end component;
 
---signal en_in1v,  en_in2v,  en_in3v  : std_logic_vector (N-1 downto 0);
---signal en_mid1v, en_mid2v, en_mid3v : std_logic_vector (N-1 downto 0);
---signal en_end1v, en_end2v, en_end3v : std_logic_vector (N-1 downto 0);
+component ConvLayer_data_gen is
+  generic (
+           BP            : string := "no";  --"no"/"yes"  -- Bypass
+           mult_sum      : string := "sum";           
+           Kernel_size   : integer := 3; -- 3/5
+           zero_padding  : string := "yes";  --"no"/"yes"
+           stride        : integer := 1;
+           N             : integer := 8; -- input data width
+     --      M             : integer := 8; -- input weight width
+     --      W             : integer := 8; -- output data width      (Note, W+SR <= N+M+4)
+     --      SR            : integer := 2; -- data shift right before output
+           --bpp           : integer := 8; -- bit per pixel
+           in_row        : integer := 256;
+           in_col        : integer := 256
+           );
+  port    (
+           clk         : in std_logic;
+           rst         : in std_logic;
+           d_in        : in std_logic_vector (N-1 downto 0);
+           en_in       : in std_logic;
+           sof_in      : in std_logic; -- start of frame
+           --sol         : in std_logic; -- start of line
+           --eof         : in std_logic; -- end of frame
 
---constant fifo_depth : integer := in_col * N / bpp - 3;
-constant fifo_depth : integer := in_col  - 3;
-type t_Memory is array (0 to fifo_depth) of std_logic_vector(N-1 downto 0);
-signal mem_line1 : t_Memory;
-signal mem_line2 : t_Memory;
+
+           data2conv1  : out std_logic_vector (N-1 downto 0);
+           data2conv2  : out std_logic_vector (N-1 downto 0);
+           data2conv3  : out std_logic_vector (N-1 downto 0);
+           data2conv4  : out std_logic_vector (N-1 downto 0);
+           data2conv5  : out std_logic_vector (N-1 downto 0);
+           data2conv6  : out std_logic_vector (N-1 downto 0);
+           data2conv7  : out std_logic_vector (N-1 downto 0);
+           data2conv8  : out std_logic_vector (N-1 downto 0);
+           data2conv9  : out std_logic_vector (N-1 downto 0);
+           data2conv10 : out std_logic_vector (N-1 downto 0);
+           data2conv11 : out std_logic_vector (N-1 downto 0);
+           data2conv12 : out std_logic_vector (N-1 downto 0);
+           data2conv13 : out std_logic_vector (N-1 downto 0);
+           data2conv14 : out std_logic_vector (N-1 downto 0);
+           data2conv15 : out std_logic_vector (N-1 downto 0);
+           data2conv16 : out std_logic_vector (N-1 downto 0);
+           data2conv17 : out std_logic_vector (N-1 downto 0);
+           data2conv18 : out std_logic_vector (N-1 downto 0);
+           data2conv19 : out std_logic_vector (N-1 downto 0);
+           data2conv20 : out std_logic_vector (N-1 downto 0);
+           data2conv21 : out std_logic_vector (N-1 downto 0);
+           data2conv22 : out std_logic_vector (N-1 downto 0);
+           data2conv23 : out std_logic_vector (N-1 downto 0);
+           data2conv24 : out std_logic_vector (N-1 downto 0);
+           data2conv25 : out std_logic_vector (N-1 downto 0);
+
+           en_out      : out std_logic;
+           sof_out     : out std_logic);
+end component;
+
+component ConvLayer_weight_gen is
+  generic (
+           BP            : string := "no";  --"no"/"yes"  -- Bypass
+           M             : integer := 8 -- input weight width
+           );
+  port    (
+           clk         : in std_logic;
+           rst         : in std_logic;
+
+           w_in        : in  std_logic_vector(M-1 downto 0);
+           w_num       : in  std_logic_vector(  4 downto 0);
+           w_en        : in  std_logic;
+
+          w1           : out std_logic_vector(M-1 downto 0); -- weight matrix
+          w2           : out std_logic_vector(M-1 downto 0); -- weight matrix
+          w3           : out std_logic_vector(M-1 downto 0); -- weight matrix
+          w4           : out std_logic_vector(M-1 downto 0); -- weight matrix
+          w5           : out std_logic_vector(M-1 downto 0); -- weight matrix
+          w6           : out std_logic_vector(M-1 downto 0); -- weight matrix
+          w7           : out std_logic_vector(M-1 downto 0); -- weight matrix
+          w8           : out std_logic_vector(M-1 downto 0); -- weight matrix
+          w9           : out std_logic_vector(M-1 downto 0);  -- weight matrix
+          w10          : out std_logic_vector(M-1 downto 0);
+          w11          : out std_logic_vector(M-1 downto 0);
+          w12          : out std_logic_vector(M-1 downto 0);
+          w13          : out std_logic_vector(M-1 downto 0);
+          w14          : out std_logic_vector(M-1 downto 0);
+          w15          : out std_logic_vector(M-1 downto 0);
+          w16          : out std_logic_vector(M-1 downto 0);
+          w17          : out std_logic_vector(M-1 downto 0);
+          w18          : out std_logic_vector(M-1 downto 0);
+          w19          : out std_logic_vector(M-1 downto 0);
+          w20          : out std_logic_vector(M-1 downto 0);
+          w21          : out std_logic_vector(M-1 downto 0);
+          w22          : out std_logic_vector(M-1 downto 0);
+          w23          : out std_logic_vector(M-1 downto 0);
+          w24          : out std_logic_vector(M-1 downto 0);
+          w25          : out std_logic_vector(M-1 downto 0)
+           );
+end component;
+
+component multi_adder is
+  generic (
+           Relu          : string := "yes"; --"no"/"yes"  -- nonlinear Relu function
+           BP            : string := "no";  --"no"/"yes"  -- Bypass
+           TP            : string := "no";  --"no"/"yes"  -- Test pattern output
+           CL_inputs     : integer := 3;    -- number of inputs features
+           CL_outs       : integer := 6;    -- number of output features
+           N             : integer := 8;    -- input data width
+           W             : integer := 8;     -- output data width  
+           SR            : integer := 2     -- data shift right before output
+           );
+  port    (
+           clk         : in std_logic;
+           rst         : in std_logic;
+           d_in        : in vec(0 to CL_inputs*CL_outs -1)(N-1 downto 0);
+
+           en_in       : in std_logic;
+           sof_in      : in std_logic; -- start of frame
+
+           d_out       : out vec(0 to CL_outs -1)(W-1 downto 0);
+           en_out      : out std_logic;
+           sof_out     : out std_logic);
+end component;
 
 
-type t_datacontrol is array (0 to fifo_depth) of std_logic_vector(1 downto 0);
-signal en_line1 : t_datacontrol;
-signal en_line2 : t_datacontrol;
+signal w1         : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w2         : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w3         : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w4         : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w5         : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w6         : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w7         : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w8         : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w9         : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w10        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w11        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w12        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w13        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w14        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w15        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w16        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w17        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w18        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w19        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w20        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w21        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w22        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w23        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w24        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
+signal w25        : vec(0 to CL_outs*CL_inputs -1)(M-1 downto 0);
 
---signal head : std_logic_vector 
-signal Head : natural range 0 to fifo_depth ;
-signal Tail : natural range 0 to fifo_depth ;
 
-signal row_num           : natural range 0 to in_row;
-signal col_num           : natural range 0 to in_col;
-signal start_pixel_count : natural range 0 to in_col + 1;
---signal start_sof_count   : natural range 0 to in_col + 1;
-signal start_pixel_done  : std_logic;
-signal start_sof_done    : std_logic;
---signal start_sof_count_en: std_logic;
 
-signal line_first  ,line_first_d  : std_logic;
-signal line_last   ,line_last_d   : std_logic;
-signal pixel_first ,pixel_first_d : std_logic;
-signal pixel_last  ,pixel_last_d  : std_logic;
+type t_data2conv is array (0 to CL_inputs-1) of std_logic_vector(N-1 downto 0);
+signal data2conv1  : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv2  : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv3  : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv4  : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv5  : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv6  : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv7  : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv8  : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv9  : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv10 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv11 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv12 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv13 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv14 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv15 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv16 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv17 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv18 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv19 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv20 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv21 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv22 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv23 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv24 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
+signal data2conv25 : t_data2conv;                                   --std_logic_vector (N-1 downto 0);
 
-signal en2conv     : std_logic_vector(1 downto 0);
-signal en_count    : std_logic_vector(1 downto 0);
+signal en_s       : std_logic_vector(CL_inputs-1 downto 0);         -- std_logic;
+signal sof_s      : std_logic_vector(CL_inputs-1 downto 0);         -- std_logic;
 
-signal data2conv1  : std_logic_vector (N-1 downto 0);
-signal data2conv2  : std_logic_vector (N-1 downto 0);
-signal data2conv3  : std_logic_vector (N-1 downto 0);
-signal data2conv4  : std_logic_vector (N-1 downto 0);
-signal data2conv5  : std_logic_vector (N-1 downto 0);
-signal data2conv6  : std_logic_vector (N-1 downto 0);
-signal data2conv7  : std_logic_vector (N-1 downto 0);
-signal data2conv8  : std_logic_vector (N-1 downto 0);
-signal data2conv9  : std_logic_vector (N-1 downto 0);
+signal w_in_s     : std_logic_vector(M-1 downto 0);
+signal w_num_s    : std_logic_vector(  4 downto 0);
+--signal w_unit_en  : std_logic_vector (CL_outs-1 downto 0);
+signal w_unit_input   : integer;
+signal w_unit_output  : integer;
 
-signal c01         : std_logic_vector (N + M -1 downto 0);
-signal c02         : std_logic_vector (N + M -1 downto 0);
-signal c03         : std_logic_vector (N + M -1 downto 0);
-signal c04         : std_logic_vector (N + M -1 downto 0);
-signal c05         : std_logic_vector (N + M -1 downto 0);
-signal c06         : std_logic_vector (N + M -1 downto 0);
-signal c07         : std_logic_vector (N + M -1 downto 0);
-signal c08         : std_logic_vector (N + M -1 downto 0);
-signal c09         : std_logic_vector (N + M -1 downto 0);
-signal c10         : std_logic_vector (N + M -1 downto 0);
-signal c11         : std_logic_vector (N + M -1 downto 0);
-signal c12         : std_logic_vector (N + M -1 downto 0);
-signal c13         : std_logic_vector (N + M -1 downto 0);
-signal c14         : std_logic_vector (N + M -1 downto 0);
-signal c15         : std_logic_vector (N + M -1 downto 0);
-signal c16         : std_logic_vector (N + M -1 downto 0);
-signal c17         : std_logic_vector (N + M -1 downto 0);
-signal c18         : std_logic_vector (N + M -1 downto 0);
-signal c19         : std_logic_vector (N + M -1 downto 0);
-signal c20         : std_logic_vector (N + M -1 downto 0);
-signal c21         : std_logic_vector (N + M -1 downto 0);
-signal c22         : std_logic_vector (N + M -1 downto 0);
-signal c23         : std_logic_vector (N + M -1 downto 0);
-signal c24         : std_logic_vector (N + M -1 downto 0);
-signal c25         : std_logic_vector (N + M -1 downto 0);
-signal c26         : std_logic_vector (N + M -1 downto 0);
-signal c27         : std_logic_vector (N + M -1 downto 0);
+--type d_out_mat is array (natural range 0 to CL_inputs -1) of vec;
+type d_out_vec is array (natural range 0 to CL_outs -1) of std_logic_vector(W-1 downto 0); --element;
+type d_out_mat is array (natural range 0 to (CL_inputs -1)) of d_out_vec;
+--signal d_out1     : d_out_mat;                                      --vec;
+signal d_out1     : vec(0 to CL_inputs*CL_outs -1)(N + M +4  downto 0);                                      --vec;
 
-signal c27_d       : std_logic_vector (N + M    downto 0);
-signal c30         : std_logic_vector (N + M    downto 0);
-signal c31         : std_logic_vector (N + M    downto 0);
-signal c32         : std_logic_vector (N + M    downto 0);
-signal c33         : std_logic_vector (N + M    downto 0);
-signal c34         : std_logic_vector (N + M    downto 0);
-signal c35         : std_logic_vector (N + M    downto 0);
-signal c36         : std_logic_vector (N + M    downto 0);
-signal c37         : std_logic_vector (N + M    downto 0);
-signal c38         : std_logic_vector (N + M    downto 0);
-signal c39         : std_logic_vector (N + M    downto 0);
-signal c40         : std_logic_vector (N + M    downto 0);
-signal c41         : std_logic_vector (N + M    downto 0);
-signal c42         : std_logic_vector (N + M    downto 0);
+signal d_sums     : vec(0 to CL_outs -1)(W-1 downto 0);
+signal w_unit_en  : vec(0 to CL_inputs -1)(CL_outs-1 downto 0);
 
-signal c50         : std_logic_vector (N + M +1 downto 0);
-signal c51         : std_logic_vector (N + M +1 downto 0);
-signal c52         : std_logic_vector (N + M +1 downto 0);
-signal c53         : std_logic_vector (N + M +1 downto 0);
-signal c54         : std_logic_vector (N + M +1 downto 0);
-signal c55         : std_logic_vector (N + M +1 downto 0);
-signal c56         : std_logic_vector (N + M +1 downto 0);
+type t_mat is array (0 to CL_inputs-1) of std_logic_vector(CL_outs-1 downto 0); 
+signal en_out1    : t_mat;                                            -- std_logic_vector (CL_outs-1 downto 0);
+signal sof_out1   : t_mat;                                            -- std_logic_vector (CL_outs-1 downto 0);
 
-signal c56_d       : std_logic_vector (N + M +2 downto 0);
-signal c60         : std_logic_vector (N + M +2 downto 0);
-signal c61         : std_logic_vector (N + M +2 downto 0);
-signal c62         : std_logic_vector (N + M +2 downto 0);
+signal countI      : std_logic_vector (9 downto 0);
+signal countJ      : std_logic_vector (9 downto 0);
 
-signal c70         : std_logic_vector (N + M +3 downto 0);
-signal c71         : std_logic_vector (N + M +3 downto 0);
+signal en_sums     : std_logic;
+signal sof_sums    : std_logic;
 
-signal c80         : std_logic_vector (N + M +4 downto 0);
-signal c80_relu    : std_logic_vector (N + M +4 downto 0);
-signal c80_ovf     : std_logic_vector (N + M +4 downto 0);
-
-signal en_conv1, en_conv2, en_conv3, en_conv4, en_conv5, en_conv6    : std_logic_vector(1 downto 0);
-signal en_relu, en_ovf     : std_logic_vector(1 downto 0);
 begin
 
--- weight update
+w_unit_input  <= conv_integer(unsigned('0' & w_unit_n( 7 downto 0)));
+w_unit_output <= conv_integer(unsigned('0' & w_unit_n(15 downto 8)));
+
+w_en_p : process (clk,rst)
+--w_en_p : process (w_unit_ni)
+begin
+   if rst = '1' then
+       w_unit_en     <= (others => (others => '0'));
+   elsif rising_edge(clk) then
+      w_in_s   <= w_in ;
+      w_num_s  <= w_num;
+
+      for j in 0 to CL_inputs-1 loop
+         for i in 0 to CL_outs-1 loop
+            if w_en = '1' then
+               if w_unit_input = j and w_unit_output = i then 
+                  w_unit_en(j)(i) <= '1';
+               else 
+                  w_unit_en(j)(i) <= '0';
+               end if;
+            else
+               w_unit_en(j)(i) <= '0';
+            end if;
+         end loop;
+      end loop;
+   end if;
+end process w_en_p;
+
+
+gen_inCL: for J in 0 to CL_inputs-1 generate
+
+CL_d_g: ConvLayer_data_gen 
+          generic map (
+           BP            => BP          ,
+           mult_sum      => mult_sum    ,        
+           Kernel_size   => Kernel_size ,
+           zero_padding  => zero_padding,  
+           stride        => stride      ,
+           N             => N           , 
+          -- M          =>M        ,
+          -- W          =>W        ,
+          -- SR         =>SR       ,
+           in_row        => in_row      ,
+           in_col        => in_col      ) 
+          port map(
+           clk         => clk       ,
+           rst         => rst       , 
+           d_in        => d_in(J)   ,
+           en_in       => en_in     ,
+           sof_in      => sof_in    ,
+
+           data2conv1  => data2conv1 (J), 
+           data2conv2  => data2conv2 (J), 
+           data2conv3  => data2conv3 (J), 
+           data2conv4  => data2conv4 (J), 
+           data2conv5  => data2conv5 (J), 
+           data2conv6  => data2conv6 (J), 
+           data2conv7  => data2conv7 (J), 
+           data2conv8  => data2conv8 (J), 
+           data2conv9  => data2conv9 (J), 
+           data2conv10 => data2conv10(J),
+           data2conv11 => data2conv11(J),
+           data2conv12 => data2conv12(J),
+           data2conv13 => data2conv13(J),
+           data2conv14 => data2conv14(J),
+           data2conv15 => data2conv15(J),
+           data2conv16 => data2conv16(J),
+           data2conv17 => data2conv17(J),
+           data2conv18 => data2conv18(J),
+           data2conv19 => data2conv19(J),
+           data2conv20 => data2conv20(J),
+           data2conv21 => data2conv21(J),
+           data2conv22 => data2conv22(J),
+           data2conv23 => data2conv23(J),
+           data2conv24 => data2conv24(J),
+           data2conv25 => data2conv25(J),
+
+           en_out      => en_s (J)      ,
+           sof_out     => sof_s(J) 
+  );
+
+gen_CL: for I in 0 to CL_outs-1 generate
+
+CL_w_g:  ConvLayer_weight_gen
+  generic map (
+           BP         => BP         ,
+           M          => M          
+           )
+  port  map  (
+           clk        => clk       ,
+           rst        => rst       , 
+
+           w_in       => w_in_s    ,
+           w_num      => w_num_s   ,
+           w_en       => w_unit_en(j)(i)     , --(i)   ,
+
+           w1         => w1 (J*CL_outs + i) ,
+           w2         => w2 (J*CL_outs + i) ,
+           w3         => w3 (J*CL_outs + i) ,
+           w4         => w4 (J*CL_outs + i) ,
+           w5         => w5 (J*CL_outs + i) ,
+           w6         => w6 (J*CL_outs + i) ,
+           w7         => w7 (J*CL_outs + i) ,
+           w8         => w8 (J*CL_outs + i) ,
+           w9         => w9 (J*CL_outs + i) ,
+           w10        => w10(J*CL_outs + i) ,  
+           w11        => w11(J*CL_outs + i) ,  
+           w12        => w12(J*CL_outs + i) ,  
+           w13        => w13(J*CL_outs + i) ,  
+           w14        => w14(J*CL_outs + i) ,  
+           w15        => w15(J*CL_outs + i) ,  
+           w16        => w16(J*CL_outs + i) ,  
+           w17        => w17(J*CL_outs + i) ,  
+           w18        => w18(J*CL_outs + i) ,  
+           w19        => w19(J*CL_outs + i) ,  
+           w20        => w20(J*CL_outs + i) ,  
+           w21        => w21(J*CL_outs + i) ,  
+           w22        => w22(J*CL_outs + i) ,  
+           w23        => w23(J*CL_outs + i) ,  
+           w24        => w24(J*CL_outs + i) ,  
+           w25        => w25(J*CL_outs + i)   
+         );
+
+
+ CL_c:  ConvLayer_calc
+  generic map (
+          -- Relu       => Relu       ,
+           BP         => BP         ,
+           TP         => TP         ,
+           mult_sum   => mult_sum   ,
+           Kernel_size=> Kernel_size,
+           N          => N          ,
+           M          => M          ,
+           W          => W           
+           --SR         => SR        
+           )
+  port  map  ( 
+           clk         => clk        ,
+           rst         => rst        ,
+           data2conv1  => data2conv1 (J),
+           data2conv2  => data2conv2 (J),
+           data2conv3  => data2conv3 (J),
+           data2conv4  => data2conv4 (J),
+           data2conv5  => data2conv5 (J),
+           data2conv6  => data2conv6 (J),
+           data2conv7  => data2conv7 (J),
+           data2conv8  => data2conv8 (J),
+           data2conv9  => data2conv9 (J),
+           data2conv10 => data2conv10(J),
+           data2conv11 => data2conv11(J),
+           data2conv12 => data2conv12(J),
+           data2conv13 => data2conv13(J),
+           data2conv14 => data2conv14(J),
+           data2conv15 => data2conv15(J),
+           data2conv16 => data2conv16(J),
+           data2conv17 => data2conv17(J),
+           data2conv18 => data2conv18(J),
+           data2conv19 => data2conv19(J),
+           data2conv20 => data2conv20(J),
+           data2conv21 => data2conv21(J),
+           data2conv22 => data2conv22(J),
+           data2conv23 => data2conv23(J),
+           data2conv24 => data2conv24(J),
+           data2conv25 => data2conv25(J),
+           en_in      => en_s(0)        ,
+           sof_in     => sof_s(0)       ,
+
+           w1         => w1 (j*CL_outs + i)     ,
+           w2         => w2 (j*CL_outs + i)     ,
+           w3         => w3 (j*CL_outs + i)     ,
+           w4         => w4 (j*CL_outs + i)     ,
+           w5         => w5 (j*CL_outs + i)     ,
+           w6         => w6 (j*CL_outs + i)     ,
+           w7         => w7 (j*CL_outs + i)     ,
+           w8         => w8 (j*CL_outs + i)     ,
+           w9         => w9 (j*CL_outs + i)     ,
+           w10        => w10(j*CL_outs + i)     ,  
+           w11        => w11(j*CL_outs + i)     ,  
+           w12        => w12(j*CL_outs + i)     ,  
+           w13        => w13(j*CL_outs + i)     ,  
+           w14        => w14(j*CL_outs + i)     ,  
+           w15        => w15(j*CL_outs + i)     ,  
+           w16        => w16(j*CL_outs + i)     ,  
+           w17        => w17(j*CL_outs + i)     ,  
+           w18        => w18(j*CL_outs + i)     ,  
+           w19        => w19(j*CL_outs + i)     ,  
+           w20        => w20(j*CL_outs + i)     ,  
+           w21        => w21(j*CL_outs + i)     ,  
+           w22        => w22(j*CL_outs + i)     ,  
+           w23        => w23(j*CL_outs + i)     ,  
+           w24        => w24(j*CL_outs + i)     ,  
+           w25        => w25(j*CL_outs + i)     ,
+
+           d_out      => d_out1  (j*CL_outs + i) ,
+           en_out     => en_out1 (J)(i) ,
+           sof_out    => sof_out1(J)(i)
+         );
+
+end generate gen_CL;
+
+
+end generate gen_inCL;
+
+
+adder: multi_adder
+  generic map (
+           Relu        => Relu          ,
+           BP          => BP            ,
+           TP          => TP            ,
+           CL_inputs   => CL_inputs     , 
+           CL_outs     => CL_outs       ,
+           N           => N + M +5      ,
+           W           => W             ,            
+           SR          => SR            
+           )
+  port map   (
+           clk         => clk           ,
+           rst         => rst           ,
+           d_in        => d_out1        ,
+
+           en_in       => en_out1 (0)(0),
+           sof_in      => sof_out1(0)(0),
+
+           d_out       => d_sums        ,
+           en_out      => en_sums       ,
+           sof_out     => sof_sums
+           );
+
+d_out <= d_sums;
+en_out  <= en_sums ;
+sof_out <= sof_sums;
 
-  p_weight : process (clk)
-  begin
-    if rising_edge(clk) then
-       if w_en = '1' then
-          case w_num is
-            when x"1"      =>  w1 <= w_in;
-            when x"2"      =>  w2 <= w_in;
-            when x"3"      =>  w3 <= w_in;
-            when x"4"      =>  w4 <= w_in;
-            when x"5"      =>  w5 <= w_in;
-            when x"6"      =>  w6 <= w_in;
-            when x"7"      =>  w7 <= w_in;
-            when x"8"      =>  w8 <= w_in;
-            when x"9"      =>  w9 <= w_in;
-            when others    =>  null;
-          end case;
-       end if;
-    end if;
-  end process p_weight;
-
--- 3 input samples
-
-  insamp1 : process (clk)
-  begin
-    if rising_edge(clk) then
-       if en_in = '1' then
-          d_in1  <= d_in  ;
-          d_in2  <= d_in1 ;
-          d_in3  <= d_in2 ;
-
-          d_mid2 <= d_mid1;
-          d_mid3 <= d_mid2;
-
-          d_end2 <= d_end1;
-          d_end3 <= d_end2; 
-       end if;
-    end if;
-  end process insamp1;
-
-  insamp2 : process (clk,rst)
-  begin
-    if rst = '1' then
-       en_in1  <= (others => '0');
-       en_in2  <= (others => '0');
-       en_in3  <= (others => '0');
-       en_mid2 <= (others => '0');
-       en_mid3 <= (others => '0');
-       en_end2 <= (others => '0');
-       en_end3 <= (others => '0');
-    elsif rising_edge(clk) then
-       if en_in = '1' then
-          en_in1(EN_BIT)  <= en_in;
-          en_in1(SOF_BIT) <= sof_in;
-          en_in2  <= en_in1;
-          en_in3  <= en_in2;
-
-          en_mid2 <= en_mid1;
-          en_mid3 <= en_mid2;
-
-          en_end2 <= en_end1;
-          --en_end3 <= en_end2;
-          en_end3 <= en_end2;
-       end if;
-    end if;
-  end process insamp2;
-
--- 2 lines
-
-  fifo1 : process (clk)
-  begin
-    if rising_edge(clk) then
-       if en_in = '1' then
-          mem_line1(tail) <= d_in3;
-          mem_line2(tail) <= d_mid3;
-          d_mid1 <= mem_line1(head);
-          d_end1 <= mem_line2(head);
-       end if;
-    end if;
-  end process fifo1;
-
-  en_shr1 : process (clk,rst)
-  begin
-    if rst = '1' then
-       en_line1 <= (others => (others => '0'));
-       en_line2 <= (others => (others => '0'));
-       en_mid1  <= (others => '0');
-       en_end1  <= (others => '0');
-    elsif rising_edge(clk) then
-       if en_in = '1' then
-          en_line1(tail) <= en_in3;
-          en_line2(tail) <= en_mid3;
-          en_mid1 <= en_line1(head);
-          en_end1 <= en_line2(head);
-       end if;
-    end if;
-  end process en_shr1;
-
-
--- fifo control
-  fifo_ctr : process (clk,rst)
-  begin
-    if rst = '1' then
-       head <= 0;
-       tail <= fifo_depth;
-    elsif rising_edge(clk) then
-       if en_in = '1' then
-          if head =  fifo_depth then
-             head <= 0;
-          else
-             head <= head + 1;
-          end if;
-          if tail =  fifo_depth then
-             tail <= 0;
-          else
-             tail <= tail + 1;
-          end if;
-       end if;
-    end if;
-  end process fifo_ctr;
-
----- row/column counter
---  rc_cnt : process (clk,rst)
---  begin
---    if rst = '1' then
---       row_num  <= 0;
---       col_num  <= 0;
---    elsif rising_edge(clk) then
---       if en_in = '1' then
---          if sof = '1' then
---             row_num   <= 0;
---             col_num   <= 0;
---          else
---             if col_num =  in_col -1 then
---                col_num <= 0;
---                row_num <= row_num + 1;
---             else
---                col_num <= col_num + 1;
---             end if;
---          end if;
---       end if;
---    end if;
---  end process rc_cnt;
-
--- convolution padding control
-  conv_ctr : process (clk,rst)
-  begin
-    if rst = '1' then
-        row_num   <= 0;
-        col_num   <= 0;
-        en_count  <= (others => '0');
-        start_pixel_count <=  0 ;
-        start_pixel_done  <= '0';
-        --start_sof_count   <=  0 ;
-        --start_sof_done    <= '0';
-    elsif rising_edge(clk) then
-       if en_in = '1' then
-          if en_mid1(SOF_BIT) = '1' then
-             row_num   <= 0;
-             col_num   <= 0;
-             --en_count  <= '1';
-          else
-             --en_count(EN_BIT)   <= '0';
-             if col_num =  in_col -1 then
-                col_num <= 0;
-                if row_num = in_row - 1 then
-                   row_num   <= 0;
-                   --start_sof_done <= '1';
-                else
-                   row_num <= row_num + 1;
-                   --start_sof_done <= '0';
-                end if;
-             else
-                col_num <= col_num + 1;
-             end if;
-          end if;
-          if start_pixel_done = '0' then
-             start_pixel_count <= start_pixel_count + 1;
-             if start_pixel_count = in_col then
-                start_pixel_done <= '1';
-             end if;
-          end if;
-
-        --  if row_num  = 0 and col_num   = 0 then
-        --    start_sof_count    <=  0;
-        --    start_sof_count_en <= '1';
-        --    start_sof_done <= '0';
-        --  else
-        --     if start_sof_count_en = '1' then
-        --        start_sof_count <= start_sof_count + 1;
-        --        if start_sof_count = in_col then
-        --           start_sof_done <= '1';
-        --           start_sof_count_en <= '0';
-        --        end if;
-        --     else
-        --        start_sof_done <= '0';
-        --     end if;
-        --  end if;
-        --  if row_num  = 0 and col_num   = 0 then
-        --    start_sof_done <= '1';
-        --  else
-        --    start_sof_done <= '0';
-        --  end if;
-
-       else
-          --start_sof_done <= '0';
-       end if;
-       en_count(EN_BIT)  <= en_in and start_pixel_done;
-       en_count(SOF_BIT) <= start_sof_done ; --en_end3(SOF_BIT);
-    end if;
-  end process conv_ctr;
-start_sof_done <= '1' when row_num  = 0 and col_num   = 0 else '0';
-
- conv_ctr2 : process (row_num, col_num)
-  begin
-     if col_num  = 0  then
-        pixel_first <= '1';
-        pixel_last  <= '0';
-     elsif col_num =  in_col - 1 then
-        pixel_first <= '0';
-        pixel_last  <= '1';
-      else
-        pixel_first <= '0';
-        pixel_last  <= '0';
-     end if;
-
-     if row_num = 0  then
-        line_first <= '1';
-        line_last  <= '0';
-     elsif row_num =  in_row - 1 then
-        line_first <= '0';
-        line_last  <= '1';
-      else
-        line_first <= '0';
-        line_last  <= '0';
-     end if;
-  end process conv_ctr2;
-
--- data sampling
---  in line 3->2->1
--- mid line 3->2->1  -- mid_2 - convolution point
--- end line 3->2->1
-
--- Boundary cases:
--- first line  | last line | 1st pixel | last pixel |  
---   V V V     |  0 0 0    |  V V 0    |  0 V V     |  
---   V V V     |  V V V    |  V V 0    |  0 V V     |  
---   0 0 0     |  V V V    |  V V 0    |  0 V V     |  
-
--- data conv numbering
---   1 2 3
---   4 5 6
---   7 8 9
-
-  samp_conv : process (clk,rst)
-  begin
-    if rst = '1' then
-       data2conv1 <= (others => '0');
-       data2conv2 <= (others => '0');
-       data2conv3 <= (others => '0');
-       data2conv4 <= (others => '0');
-       data2conv5 <= (others => '0');
-       data2conv6 <= (others => '0');
-       data2conv7 <= (others => '0');
-       data2conv8 <= (others => '0');
-       data2conv9 <= (others => '0');
-       en2conv    <= (others => '0');      
-    elsif rising_edge(clk) then   
-       if line_first = '1' and pixel_first = '1'  then
-
-          data2conv1 <= d_in1  ;
-          data2conv2 <= d_in2  ;
-          data2conv3 <= (others => '0');
-
-          data2conv4 <= d_mid1 ;
-          data2conv6 <= (others => '0');
-
-          data2conv7 <= (others => '0');
-          data2conv8 <= (others => '0');
-          data2conv9 <= (others => '0');
-
-       elsif line_first = '1' and pixel_last = '1' then
-
-          data2conv1 <= (others => '0');
-          data2conv2 <= d_in2;
-          data2conv3 <= d_in3;
-
-          data2conv4 <= (others => '0');
-          data2conv6 <= d_mid3;
-
-          data2conv7 <= (others => '0');
-          data2conv8 <= (others => '0');
-          data2conv9 <= (others => '0');
-
-       elsif line_first = '1' then
-
-          data2conv1 <= d_in1  ;
-          data2conv2 <= d_in2  ;
-          data2conv3 <= d_in3  ;
-
-          data2conv4 <= d_mid1 ;
-          data2conv6 <= d_mid3 ;
-
-          data2conv7 <= (others => '0');
-          data2conv8 <= (others => '0');
-          data2conv9 <= (others => '0');
-
-       elsif line_last = '1' and pixel_first = '1'  then
-
-          data2conv1 <= (others => '0');
-          data2conv2 <= (others => '0');
-          data2conv3 <= (others => '0');
-
-          data2conv4 <= d_mid1 ;
-          data2conv6 <= (others => '0');
-
-          data2conv7 <= d_end1;
-          data2conv8 <= d_end2;
-          data2conv9 <= (others => '0'); 
-
-       elsif line_last = '1' and pixel_last = '1' then
-
-          data2conv1 <= (others => '0');
-          data2conv2 <= (others => '0');
-          data2conv3 <= (others => '0'); 
-
-          data2conv4 <= (others => '0');
-          data2conv6 <= d_mid3;
-
-          data2conv7 <= (others => '0');
-          data2conv8 <= d_end2;
-          data2conv9 <= d_end3; 
-
-       elsif line_last = '1' then
-          data2conv1 <= (others => '0');
-          data2conv2 <= (others => '0');
-          data2conv3 <= (others => '0');
-
-          data2conv4 <= d_mid1 ;
-          data2conv6 <= d_mid3 ;
-
-          data2conv7 <= d_end1;
-          data2conv8 <= d_end2;
-          data2conv9 <= d_end3; 
-
-       elsif pixel_first = '1' then
-          data2conv1 <= d_in1  ;
-          data2conv2 <= d_in2  ;
-          data2conv3 <= (others => '0')  ;
-
-          data2conv4 <= d_mid1 ;
-          data2conv6 <= (others => '0');
-
-          data2conv7 <= d_end1;
-          data2conv8 <= d_end2;
-          data2conv9 <= (others => '0');
-
-       elsif pixel_last = '1' then
-          data2conv1 <= (others => '0')  ;
-          data2conv2 <= d_in2  ;
-          data2conv3 <= d_in3  ;
-
-          data2conv4 <= (others => '0');
-          data2conv6 <= d_mid3 ;
-
-          data2conv7 <= (others => '0');
-          data2conv8 <= d_end2;
-          data2conv9 <= d_end3;
-
-       else
-          data2conv1 <= d_in1  ;
-          data2conv2 <= d_in2  ;
-          data2conv3 <= d_in3  ;
-          data2conv4 <= d_mid1 ;
-          data2conv6 <= d_mid3 ;
-          data2conv7 <= d_end1;
-          data2conv8 <= d_end2;
-          data2conv9 <= d_end3; 
-       end if;
-       data2conv5 <= d_mid2 ;
-       en2conv    <= en_count;
-    end if;
-  end process samp_conv;
-
--- convolution
-  p_conv_oper : process (clk)
-  begin
-    if rising_edge(clk) then
-      c01 <= w1 * data2conv1;
-      c02 <= w4 * data2conv2;
-      c03 <= w7 * data2conv3;
-
-      c04 <= w2 * data2conv1;
-      c05 <= w5 * data2conv2;
-      c06 <= w8 * data2conv3;
-
-      c07 <= w3 * data2conv1;
-      c08 <= w6 * data2conv2;
-      c09 <= w9 * data2conv3;
-
-      c10 <= w1 * data2conv4;
-      c11 <= w4 * data2conv5;
-      c12 <= w7 * data2conv6;
-
-      c13 <= w2 * data2conv4;
-      c14 <= w5 * data2conv5;
-      c15 <= w8 * data2conv6;
-
-      c16 <= w3 * data2conv4;
-      c17 <= w6 * data2conv5;
-      c18 <= w9 * data2conv6;
-
-      c19 <= w1 * data2conv7;
-      c20 <= w4 * data2conv8;
-      c21 <= w7 * data2conv9;
-
-      c22 <= w2 * data2conv7;
-      c23 <= w5 * data2conv8;
-      c24 <= w8 * data2conv9;
-
-      c25 <= w3 * data2conv7;
-      c26 <= w6 * data2conv8;
-      c27 <= w9 * data2conv9;
-
-      c30 <= (c01(c01'left) & c01) + (c02(c02'left) & c02);
-      c31 <= (c03(c03'left) & c03) + (c04(c04'left) & c04);
-      c32 <= (c05(c05'left) & c05) + (c06(c06'left) & c06);
-      c33 <= (c07(c07'left) & c07) + (c08(c08'left) & c08);
-      c34 <= (c09(c09'left) & c09) + (c10(c10'left) & c10);
-      c35 <= (c11(c11'left) & c11) + (c12(c12'left) & c12);
-      c36 <= (c13(c13'left) & c13) + (c14(c14'left) & c14);
-      c37 <= (c15(c15'left) & c15) + (c16(c16'left) & c16);
-      c38 <= (c17(c17'left) & c17) + (c18(c18'left) & c18);
-      c39 <= (c19(c19'left) & c19) + (c20(c20'left) & c20);
-      c40 <= (c21(c21'left) & c21) + (c22(c22'left) & c22);
-      c41 <= (c23(c23'left) & c23) + (c24(c24'left) & c24);
-      c42 <= (c25(c25'left) & c25) + (c26(c26'left) & c26);
-      c27_d <=c27(c27'left) & c27;
-
-      c50 <= (c30(c30'left) & c30) + (c31(c31'left) & c31);
-      c51 <= (c32(c32'left) & c32) + (c33(c33'left) & c33);
-      c52 <= (c34(c34'left) & c34) + (c35(c35'left) & c35);
-      c53 <= (c36(c36'left) & c36) + (c37(c37'left) & c37);
-      c54 <= (c38(c38'left) & c38) + (c39(c39'left) & c39);
-      c55 <= (c40(c40'left) & c40) + (c41(c41'left) & c41);
-      c56 <= (c42(c42'left) & c42) + (c27_d(c27_d'left) & c27_d);
-
-      c60   <= (c50(c50'left) & c50) + (c51(c51'left) & c51);
-      c61   <= (c52(c52'left) & c52) + (c53(c53'left) & c53);
-      c62   <= (c54(c54'left) & c54) + (c55(c55'left) & c55);
-      c56_d <=  c56(c56'left) & c56;
-
-      c70 <= (c60(c60'left) & c60) + (c61  (c61  'left) & c61  );
-      c71 <= (c62(c62'left) & c62) + (c56_d(c56_d'left) & c56_d);
-
-      c80 <= (c70(c70'left) & c70) + (c71(c71'left) & c71);
-    end if;
-  end process p_conv_oper;
-
-  p_conv_oper2 : process (clk,rst)
-  begin
-    if rst = '1' then
-      en_conv1 <= (others => '0');
-      en_conv2 <= (others => '0');
-      en_conv3 <= (others => '0');
-      en_conv4 <= (others => '0');
-      en_conv5 <= (others => '0');
-      en_conv6 <= (others => '0');
-    elsif rising_edge(clk) then
-      en_conv1 <= en2conv; 
-      en_conv2 <= en_conv1; 
-      en_conv3 <= en_conv2;
-      en_conv4 <= en_conv3;
-      en_conv5 <= en_conv4;
-      en_conv6 <= en_conv5;
-    end if;
-  end process p_conv_oper2;
-
--- RELU
-  p_relu : process (clk)
-  begin
-    if rising_edge(clk) then
-      relu_for: for i in 0 to c80'length-1  loop
-        c80_relu(i) <= c80(i) and not c80(c80'left);
-       end loop relu_for;
-    end if;
-  end process p_relu;
-
-  p_relu_samp : process (clk,rst)
-  begin
-    if rst = '1' then
-       en_relu <= (others => '0');
-    elsif rising_edge(clk) then
-       en_relu <= en_conv6;
-    end if;
-  end process p_relu_samp;
-
- -- check overflow before shift and change value to maximum if overflow occurs
-   p_ovf : process (clk)
-  begin
-    if rising_edge(clk) then
-    if c80_relu(c80_relu'left downto W + SR ) = 0  then
-       c80_ovf <= c80_relu;
-    elsif rising_edge(clk) then
-       c80_ovf <= (others => '1');
-    end if;
-    end if;
-  end process p_ovf;
-
- p_ovf_samp : process (clk,rst)
-  begin
-    if rst = '1' then
-       en_ovf <= (others => '0');
-    elsif rising_edge(clk) then
-       en_ovf <= en_relu;
-    end if;
-  end process p_ovf_samp;
-
-en_out  <= en_ovf(EN_BIT);
-sof_out <= en_ovf(SOF_BIT);
-d_out   <= c80_ovf (W + SR - 1 downto SR);
 end a;
