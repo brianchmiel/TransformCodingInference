@@ -5,15 +5,15 @@ use IEEE.STD_LOGIC_SIGNED.ALL;
 use ieee.numeric_std.all;    
 --USE ieee.std_logic_arith.all;
 library work;
-use work.types_packege.all;
+use work.ConvLayer_types_package.all;
 
 entity Entropy_encoding is
   generic (
-  	       mult_sum_CL   : string := "mult"; --"sum";
+           mult_sum_CL   : string := "mult"; --"sum";
            mult_sum_PCA  : string := "sum";
            N             : integer :=   8; -- input data width
            M             : integer :=   8; -- data weight width
-           Huff_wid      : integer :=  12; -- Huffman weight maximum width                   (after change need nedd to update "Huff_code" matrix)
+           Huff_wid      : integer :=  16; -- Huffman weight maximum width                   (after change need nedd to update "Huff_code" matrix)
            Wh            : integer :=  16; -- Huffman unit output data width (Note W>=M)
            Wb            : integer := 128; -- output buffer data width
            depth         : integer :=  64; -- buffer depth
@@ -22,9 +22,9 @@ entity Entropy_encoding is
            PCA_en        : boolean := FALSE; --TRUE; -- PCA Enable/Bypass
            Huff_enc_en   : boolean := FALSE;--FALSE; -- Huffman encoder Enable/Bypass
 
-  	       in_row        : integer := 114;
-  	       in_col        : integer := 114
-  	       );
+           in_row        : integer := 114;
+           in_col        : integer := 114
+           );
   port    (
            clk       : in  std_logic;
            rst       : in  std_logic;
@@ -166,8 +166,8 @@ entity Entropy_encoding is
            pca_w_num : in  std_logic_vector (5 downto 0);
            pca_w_in  : in  std_logic_vector (7 downto 0);
 
-  	       --sol     : in  std_logic; -- start of line
-  	       --eof     : in  std_logic; -- end of frame
+           --sol     : in  std_logic; -- start of line
+           --eof     : in  std_logic; -- end of frame
 
            buf_rd    : in  std_logic;
            buf_num   : in  std_logic_vector (5      downto 0);
@@ -333,17 +333,22 @@ end component;
 
 component PCA_pixel is
     generic (
-            number_output_features_g : positive := 64
+        CL_outs        : integer := 64; -- number of output features
+        N              : integer := 8; -- input/output data width
+        M              : integer := 8; -- input weight width
+        SR             : integer := 1;  -- data shift right before output (deleted LSBs)
+        in_row         : integer := 3;
+        in_col         : integer := 6
         );
     port (
-        reset          : in  std_logic;
-        clock          : in  std_logic;
+        rst            : in  std_logic;
+        clk            : in  std_logic;
         sof            : in  std_logic;
         eof            : in  std_logic;
-        data_in        : in  std_logic_vector(7 downto 0);
+        data_in        : in  std_logic_vector(N-1 downto 0);
         data_in_valid  : in  std_logic;
-        weight_in      : in  mat(0 to number_output_features_g - 1)(0 to number_output_features_g - 1);
-        data_out       : out vec(0 to number_output_features_g - 1);
+        weight_in      : in  std_logic_vector(in_row * M-1 downto 0);
+        data_out       : out vec(0 to CL_outs - 1)(N-1 downto 0);
         data_out_valid : out std_logic
     ) ;
 end component;
@@ -351,7 +356,7 @@ end component;
 component Huffman is
   generic (
            N             : integer := 4; -- input data width
-           M             : integer := 8; -- max code width
+          -- M             : integer := 8; -- max code width
            W             : integer := 10 -- output data width (Note W>=M)
            );
   port    (
@@ -360,7 +365,7 @@ component Huffman is
 
            init_en       : in  std_logic;                         -- initialising convert table
            alpha_data    : in  std_logic_vector(N-1 downto 0);    
-           alpha_code    : in  std_logic_vector(M-1 downto 0);    
+           alpha_code    : in  std_logic_vector(W-1 downto 0);    
            alpha_width   : in  std_logic_vector(  3 downto 0);
 
            d_in          : in  std_logic_vector (N-1 downto 0);   -- data to convert
@@ -888,9 +893,14 @@ PCArom_type :=
 --signal pca_w63  : std_logic_vector(7 downto 0); 
 --signal pca_w64  : std_logic_vector(7 downto 0); 
 
-signal weight_pca_in  : mat(0 to number_output_features_g - 1)(0 to number_output_features_g - 1);
-signal data_pca_out   : vec(0 to number_output_features_g - 1);
-signal data_pca_out1   : vec(0 to number_output_features_g - 1);
+--signal weight_pca_in  : mat(0 to number_output_features_g - 1)(0 to number_output_features_g - 1);
+type weight_pca_in_t     is array (natural range <>) of std_logic_vector(in_row * M-1 downto 0);
+signal weight_pca_in  : weight_pca_in_t(0 to number_output_features_g - 1);
+signal weight_pca_out : std_logic_vector(in_row * M-1 downto 0);
+signal pca_index      : integer range 0 to 1023;
+
+signal data_pca_out   : vec(0 to number_output_features_g - 1)(N-1 downto 0);
+signal data_pca_out1  : vec(0 to number_output_features_g - 1)(N-1 downto 0);
 
 signal pca_w_data     : std_logic_vector(64*8-1 downto 0);
 signal pca_w_addr     : std_logic_vector(5 downto 0);
@@ -984,7 +994,7 @@ signal d_tmp_16_out  : std_logic_vector (Wb-1 downto 0);
 type Huff_code_type  is array ( 0 to 255 ) of std_logic_vector(Huff_wid-1 downto 0);
 type Huff_width_type is array ( 0 to 255 ) of std_logic_vector(         3 downto 0);
 
-constant Huff_code  : Huff_code_type  := ( 0 => x"003", 1 => x"037", 2 => x"932", 3 => x"124", 4 => x"611", 5 => x"027", 6 => x"523", 7 => x"630", 8 => x"121", 9 => x"361", others => x"BAD"); 
+constant Huff_code  : Huff_code_type  := ( 0 => x"0203", 1 => x"0374", 2 => x"9632", 3 => x"1247", 4 => x"6141", 5 => x"0927", 6 => x"5233", 7 => x"6530", 8 => x"1261", 9 => x"3671", others => x"1BAD"); 
 constant Huff_width : Huff_width_type := ( 0 => x"4", 1 => x"8",  2 => x"C",   3 => x"C",   4 => x"C",   5 => x"8",  6 => x"C",   7 => x"C",   8 => x"C",   9 => x"C",   others => x"C"); 
 
 signal h_en          : std_logic;
@@ -1399,10 +1409,35 @@ d01_out(7 downto 0) <= d01_out1(d01_out1'left downto d01_out1'left -7); d01_out(
   begin
     if rising_edge(clk) then
        if pca_w_en = '1' then
-          weight_pca_in(conv_integer('0' & pca_w_num))(pca_count) <= pca_w_in;
+          weight_pca_in(conv_integer('0' & pca_w_num)) ((pca_count +1) * M-1 downto pca_count * M) <= pca_w_in;
        end if;
     end if;
   end process p_pca_weight;
+
+pca_out_p : process (clk)
+begin
+   if rising_edge(clk) then
+      --if cl_en_out = '1' then
+         weight_pca_out <= weight_pca_in(pca_index);
+      --end if;
+   end if;
+end process pca_out_p;
+
+pca_out2_p : process (clk,rst)
+begin
+   if rst = '1' then
+      pca_index       <= 0;
+   elsif rising_edge(clk) then
+      if cl_en_out = '1' then
+         if pca_index = in_col -1 then
+            pca_index <= 0;
+         else
+            pca_index <= pca_index + 1;
+         end if;
+      end if;
+   end if;
+end process pca_out2_p;
+
 
 pca_w01 <= pca_mem( 0);
 
@@ -1412,18 +1447,23 @@ g_PCA_en: if PCA_en = TRUE generate
 
 PCA64_inst: PCA_pixel 
   generic map (
-            number_output_features_g => number_output_features_g
+        CL_outs        => 64,
+        N              => N      ,
+        M              => M      ,
+        SR             => 6     ,
+        in_row         => in_row ,
+        in_col         => in_col
         )
     port map(
-        reset          => clk,
-        clock          => rst,
+        clk            => clk,
+        rst            => rst,
         sof            => cl_en_out, -- fix it, add start of frame
         eof            => '1',
-        data_in        => d01_out1(d01_out1'left downto d01_out1'left -7),
+        data_in        => d01_out1(7 downto 0), --d01_out1(7 downto 0), --(d01_out1'left downto d01_out1'left -7),
         data_in_valid  => cl_en_out,
-        weight_in      => weight_pca_in,
+        weight_in      => weight_pca_out,
         data_out       => data_pca_out,
-        data_out_valid => en_out(0)
+        data_out_valid => pca_en_out
     ) ;
 
   insamp2 : process (clk,rst)
@@ -1602,7 +1642,7 @@ g_Huff_enc_en: if Huff_enc_en = TRUE generate
 Huffman_inst: Huffman
   generic map(
            N           => 8          ,  -- input data width
-           M           => Huff_wid   ,  -- max code width
+      --     M           => Huff_wid   ,  -- max code width
            W           => Wh         
            )
   port map   (
@@ -1823,3 +1863,4 @@ Huffman_inst: Huffman
 --pca_w64 <= pca_w_data(64*8-1 downto 63*8); 
 
 end a;
+
